@@ -3,7 +3,7 @@ import { Input, Button, Tooltip } from "antd";
 import { CompressOutlined, LogoutOutlined } from "@ant-design/icons";
 
 import { Logo } from "../../assets/Images";
-import { HeaderContainer } from "./Styled";
+import { HeaderContainer } from "./styled";
 import { Link } from "react-router-dom";
 import {
   ROUTE_CREATE_POST_PAGE,
