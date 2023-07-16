@@ -1,9 +1,13 @@
-import { ROUTE_SIGN_IN, ROUTE_SIGN_UP } from "../routes";
+import { ROUTE_MAINA_PAGE, ROUTE_SIGN_IN, ROUTE_SIGN_UP } from "../routes";
 
 import Login from "../../Views/authentication/Login";
 import Registration from "../../Views/authentication/Registration";
 
 const routes = [
+  {
+    path: ROUTE_MAINA_PAGE,
+    component: Login,
+  },
   {
     path: ROUTE_SIGN_IN,
     component: Login,
