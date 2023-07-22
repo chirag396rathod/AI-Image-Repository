@@ -1,6 +1,7 @@
 import { User } from "../mongodb/models/userModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import mongoose from "mongoose";
 
 // handle error
 const handleErrors = (err) => {
@@ -29,7 +30,12 @@ const createToken = (id) => {
 const SignupPost = async (req, res) => {
   const { email, password, name } = req.body;
   try {
-    const user = await User.create({ name, email, password });
+    const user = await User.create({
+      name,
+      email,
+      password,
+      _id: mongoose.Types.ObjectId(),
+    });
     const jwt = createToken(user._id);
     res.status(201).json({
       user: {

@@ -135,6 +135,8 @@ export const ImagePriviwerContainer = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    min-height: calc(100vh - 300px);
+    height: 100%;
     .image-cover {
       max-width: 550px;
       max-height: 550px;

@@ -9,6 +9,7 @@ const FormInput = ({
   isPassword,
   formik,
   name,
+  prefix,
 }) => {
   return (
     <>
@@ -17,9 +18,15 @@ const FormInput = ({
         tooltip={tooltip}
         label={label}
         validateStatus={
-          formik && formik.errors && formik.errors[name] && "error"
+          formik &&
+          formik.errors &&
+          formik.touched[name] &&
+          formik.errors[name] &&
+          "error"
         }
-        help={formik && formik.errors && formik.errors[name]}
+        help={
+          formik && formik.errors && formik.touched[name] && formik.errors[name]
+        }
       >
         {!isPassword ? (
           <Input
@@ -27,6 +34,7 @@ const FormInput = ({
             onKeyUp={(e) => {
               formik && formik.setFieldValue([name], e.target.value);
             }}
+            prefix={prefix}
             onBlur={() => formik && formik.setFieldTouched([name])}
             placeholder={placeholder}
             status={
@@ -39,6 +47,7 @@ const FormInput = ({
         ) : (
           <Input.Password
             name={name}
+            prefix={prefix}
             onKeyUp={(e) => {
               formik && formik.setFieldValue([name], e.target.value);
             }}

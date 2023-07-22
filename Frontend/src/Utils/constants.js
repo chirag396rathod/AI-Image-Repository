@@ -9,5 +9,7 @@ export const FILTER_TAB_LIST = [
   { title: "People" },
   { title: "Business & work" },
 ];
+export const COLOR_LIST = ["#f56a00", "#7265e6", "#ffbf00", "#00a2ae"];
 
 export const ACCESS_TOKEN = localStorage.getItem("access_token");
+export const USER_ID = localStorage.getItem("user_id");

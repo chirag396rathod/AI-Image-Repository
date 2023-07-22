@@ -4,7 +4,11 @@ import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Card, Form, Input, Button } from "antd";
-import { CheckCircleOutlined } from "@ant-design/icons";
+import {
+  CheckCircleOutlined,
+  LockOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 
 import { ROUTE_HOME_PAGE, ROUTE_SIGN_UP } from "../../../routes/routes";
 import { LoginSidebarIcon, Logo } from "../../../assets/Images";
@@ -91,6 +95,7 @@ const Login = () => {
                   placeholder="jone.duo@gmail.com"
                   name="email"
                   formik={formik}
+                  prefix={<UserOutlined className="site-form-item-icon" />}
                 />
                 <FormInput
                   isPassword
@@ -100,6 +105,7 @@ const Login = () => {
                   tooltip="Password is a required field"
                   name="password"
                   formik={formik}
+                  prefix={<LockOutlined className="site-form-item-icon" />}
                 />
                 <Button
                   type="primary"

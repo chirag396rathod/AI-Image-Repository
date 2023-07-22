@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   DownOutlined,
   AppstoreOutlined,
@@ -15,11 +15,63 @@ import { DashboardContainer, DashboardMain, Header } from "./styled";
 import { ROUTE_EXPLORE_PAGE } from "../../routes/routes";
 import { ImageGridContainer } from "../../globle-stled";
 import PaginationComponent from "../../Components/PaginationComponent";
+import { Toast } from "../../Components/Toater";
+import axios from "axios";
+import { LoaderContainer } from "../../Components/Loader";
 
 const Dashboard = () => {
+  const [imagesList, setImagesList] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 10,
+    total: 0,
+  });
+
+  const refresh = async (page) => {
+    try {
+      setLoading(true);
+      const response = await axios({
+        method: "POST",
+        url: `${import.meta.env.VITE_BASE_API_URL}/get-share-image`,
+        data: {
+          pagination: {
+            page: page || 1,
+            limit: 10,
+          },
+        },
+      });
+      const { success, data } = response.data;
+      if (success === "1") {
+        setImagesList(data.data);
+        setLoading(false);
+        setPagination({
+          page: page || 1,
+          limit: 10,
+          total: data?.next?.totle || pagination.total,
+        });
+      }
+    } catch (error) {
+      if (error) {
+        setLoading(false);
+        console.log(error);
+        Toast({
+          type: "error",
+          massage:
+            error?.response?.data?.error?.message || "Somthing went wrong!",
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    refresh();
+  }, []);
+
   const onClick = ({ key }) => {
     message.info(`Click on item ${key}`);
   };
+
   const items = [
     {
       label: "1st menu item",
@@ -34,6 +86,19 @@ const Dashboard = () => {
       key: "3",
     },
   ];
+
+  const handlePageChange = (page) => {
+    refresh(page);
+
+    setPagination({
+      page: page,
+      limit: 10,
+      total: pagination.total,
+    });
+  };
+
+  const startIndex = (pagination.page - 1) * 10;
+  const endIndex = pagination.page * 10;
 
   return (
     <DashboardContainer>
@@ -52,9 +117,14 @@ const Dashboard = () => {
           </div>
           <div className="right-side">
             <div className="page-index ">
-              <span>1-50</span>
+              <span>
+                {startIndex + 1}-
+                {endIndex > parseInt(pagination.total)
+                  ? pagination.total
+                  : endIndex}
+              </span>
               <span className="mx-2">of</span>
-              <span>948</span>
+              <span>{pagination.total}</span>
             </div>
             <Dropdown
               menu={{
@@ -83,12 +153,25 @@ const Dashboard = () => {
         </Header>
         <DashboardMain>
           <div className="dashboard-heading">Newest</div>
-          <ImageGridContainer>
-            {data.map((item, key) => (
-              <ImageComponent data={item} key={key} />
-            ))}
-          </ImageGridContainer>
-          <PaginationComponent />
+          {isLoading ? (
+            <>
+              <LoaderContainer />
+            </>
+          ) : (
+            <ImageGridContainer>
+              <>
+                {imagesList.map((item, key) => (
+                  <ImageComponent data={item} key={key} isFrom="dashboard" />
+                ))}
+              </>
+            </ImageGridContainer>
+          )}
+
+          <PaginationComponent
+            total={parseInt(pagination.total)}
+            curruntIndex={pagination.page}
+            handlePageChange={(e) => handlePageChange(e)}
+          />
         </DashboardMain>
       </div>
     </DashboardContainer>

@@ -1,17 +1,27 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button } from "antd";
+import { useNavigate, useParams } from "react-router-dom";
+import { Button, Image } from "antd";
 import { LeftOutlined } from "@ant-design/icons";
 import { ImagePriviwerContainer } from "./styled";
 import { ImageGridContainer } from "../../globle-stled";
 import ImageComponent from "../../Components/ImageComponent";
-import { data } from "../Dashboard/data";
 import { CreatePostPlaceholderIcon } from "../../assets/Images";
 import PaginationComponent from "../../Components/PaginationComponent";
+import { LoaderContainer } from "../../Components/Loader";
 
-const ImagePreviwer = () => {
-  const [hasList, setHasList] = useState(true);
+const ImagePreviwer = ({
+  pagination,
+  isLoading,
+  title,
+  handlePageChange,
+  data,
+}) => {
   const navigator = useNavigate();
+  const { page } = useParams();
+
+  const startIndex = (page - 1) * 10;
+  const endIndex = page * 10;
+
   return (
     <ImagePriviwerContainer>
       <Button
@@ -22,34 +32,52 @@ const ImagePreviwer = () => {
       >
         Back
       </Button>
-
-      {hasList ? (
-        <>
-          <header>
-            <div className="info-text">Results for "Tranding images"</div>
-            <div className="page-text">1-10 of 50</div>
-          </header>
-          <div className="container-border">
-            <ImageGridContainer>
-              {data.map((item, key) => (
-                <ImageComponent data={item} key={key} />
-              ))}
-            </ImageGridContainer>
-            <PaginationComponent />
-          </div>
-        </>
+      {isLoading ? (
+        <LoaderContainer />
       ) : (
-        <div className="placeholder-container">
-          <div className="image-cover">
-            <img
-              src={CreatePostPlaceholderIcon}
-              alt="CreatePostPlaceholderIcon"
-            />
-          </div>
-          <div className="text">
-            Type in description to generate a new image
-          </div>
-        </div>
+        <>
+          {data.length > 0 ? (
+            <>
+              <header>
+                <div className="info-text">
+                  Showing Results for "{title || ""}"
+                </div>
+                <div className="page-text">{`${startIndex + 1}-${endIndex} of ${
+                  pagination.total
+                }`}</div>
+              </header>
+              <div className="container-border">
+                <ImageGridContainer>
+                  {data.map((item, key) => (
+                    <ImageComponent
+                      page={page}
+                      data={item}
+                      key={key}
+                      isFrom="generate-image"
+                    />
+                  ))}
+                </ImageGridContainer>
+                <PaginationComponent
+                  total={parseInt(pagination.total)}
+                  curruntIndex={page}
+                  handlePageChange={(e) => handlePageChange(e)}
+                />
+              </div>
+            </>
+          ) : (
+            <div className="placeholder-container">
+              <div className="image-cover">
+                <img
+                  src={CreatePostPlaceholderIcon}
+                  alt="CreatePostPlaceholderIcon"
+                />
+              </div>
+              <div className="text">
+                Type in description to generate a new image
+              </div>
+            </div>
+          )}
+        </>
       )}
     </ImagePriviwerContainer>
   );

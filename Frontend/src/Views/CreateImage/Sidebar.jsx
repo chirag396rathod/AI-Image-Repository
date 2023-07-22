@@ -4,7 +4,7 @@ import { PlusSquareOutlined } from "@ant-design/icons";
 import { SidebarContainer } from "./styled";
 import { ImagePlaceholderIcon } from "../../assets/Images";
 
-const Sidebar = ({ formik }) => {
+const Sidebar = ({ formik, isLoading }) => {
   return (
     <SidebarContainer>
       <div className="title">Image settings</div>
@@ -109,6 +109,8 @@ const Sidebar = ({ formik }) => {
             style={{ width: "100%" }}
             type="primary"
             onClick={() => formik.handleSubmit()}
+            loading={isLoading}
+            disabled={isLoading}
           >
             Generate Image
           </Button>

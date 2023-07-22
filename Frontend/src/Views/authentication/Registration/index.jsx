@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Card, Form, Input, Button } from "antd";
-import { CheckCircleOutlined } from "@ant-design/icons";
+import {
+  CheckCircleOutlined,
+  LockOutlined,
+  MailOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -100,6 +105,7 @@ const Registration = () => {
                   placeholder="Jone duo"
                   name="name"
                   formik={formik}
+                  prefix={<UserOutlined className="site-form-item-icon" />}
                 />
                 <FormInput
                   label="Email address"
@@ -108,6 +114,7 @@ const Registration = () => {
                   placeholder="jone.duo@gmail.com"
                   name="email"
                   formik={formik}
+                  prefix={<MailOutlined className="site-form-item-icon" />}
                 />
                 <FormInput
                   isPassword
@@ -117,6 +124,7 @@ const Registration = () => {
                   tooltip="Password is a required field"
                   name="password"
                   formik={formik}
+                  prefix={<LockOutlined className="site-form-item-icon" />}
                 />
                 <FormInput
                   isPassword
@@ -126,6 +134,7 @@ const Registration = () => {
                   tooltip="Confirm Password is a required field"
                   placeholder="Enter a Confirm password"
                   formik={formik}
+                  prefix={<LockOutlined className="site-form-item-icon" />}
                 />
                 <Button
                   type="primary"

@@ -9,10 +9,14 @@ const PaginationComponentContainer = styled.div`
   padding: 30px 0;
 `;
 
-const PaginationComponent = ({ curruntIndex, total }) => {
+const PaginationComponent = ({ curruntIndex, total, handlePageChange }) => {
   return (
     <PaginationComponentContainer>
-      <Pagination defaultCurrent={curruntIndex || 1} total={total || 50} />
+      <Pagination
+        defaultCurrent={curruntIndex || 1}
+        total={total || 50}
+        onChange={(e) => handlePageChange(e)}
+      />
     </PaginationComponentContainer>
   );
 };

@@ -35,7 +35,7 @@ const Header = () => {
       />
       <div className="right-section">
         <Tooltip placement="bottom" title="Generate image" color={"black"}>
-          <Link to={ROUTE_CREATE_POST_PAGE}>
+          <Link to={ROUTE_CREATE_POST_PAGE.replace(":page", 1)}>
             <Button icon={<CompressOutlined />} className="button-flex">
               Generate
             </Button>
