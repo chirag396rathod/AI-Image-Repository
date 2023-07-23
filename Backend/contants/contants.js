@@ -17,7 +17,7 @@ export const PaginationResponse = (modal, page, limit) => {
       totle: modal.length,
     };
   }
-
-  results.data = modal.slice(startIndex, endIndex);
+  (results.totle = modal.length),
+    (results.data = modal.slice(startIndex, endIndex));
   return results;
 };

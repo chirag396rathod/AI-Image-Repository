@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Button, Divider } from "antd";
+import { Input, Button, Divider, Card } from "antd";
 import { PlusSquareOutlined } from "@ant-design/icons";
 import { SidebarContainer } from "./styled";
 import { ImagePlaceholderIcon } from "../../assets/Images";
@@ -14,6 +14,7 @@ const Sidebar = ({ formik, isLoading }) => {
           <Input.Search
             placeholder="Describe in detail the image you want to get..."
             value={formik && formik.description}
+            size="large"
             onKeyUp={(e) => {
               formik && formik.setFieldValue("description", e.target.value);
             }}
@@ -21,71 +22,7 @@ const Sidebar = ({ formik, isLoading }) => {
             status={formik && formik.errors.description && "error"}
           />
         </div>
-        <div className="select-style-container ">
-          <label>Select style</label>
-          <div className="row style-row">
-            <div className="col-4">
-              <div className="style-cover">
-                <img src="https://picsum.photos/100" alt="style" />
-              </div>
-            </div>
-            <div className="col-4">
-              <div className="style-cover">
-                <img src="https://picsum.photos/100" alt="style" />
-              </div>
-            </div>
-            <div className="col-4">
-              <div className="style-cover">
-                <img src="https://picsum.photos/100" alt="style" />
-              </div>
-            </div>
-            <div className="col-4">
-              <div className="style-cover">
-                <img src="https://picsum.photos/100" alt="style" />
-              </div>
-            </div>
-            <div className="col-4">
-              <div className="style-cover">
-                <img src="https://picsum.photos/100" alt="style" />
-              </div>
-            </div>
-            <div className="col-4">
-              <div className="style-cover">
-                <img src="https://picsum.photos/100" alt="style" />
-              </div>
-            </div>
-            <div className="col-4">
-              <div className="style-cover">
-                <img src="https://picsum.photos/100" alt="style" />
-              </div>
-            </div>
-            <div className="col-4">
-              <div className="style-cover">
-                <img src="https://picsum.photos/100" alt="style" />
-              </div>
-            </div>
-            <div className="col-4">
-              <div className="style-cover">
-                <img src="https://picsum.photos/100" alt="style" />
-              </div>
-            </div>
-            <div className="col-4">
-              <div className="style-cover">
-                <img src="https://picsum.photos/100" alt="style" />
-              </div>
-            </div>
-            <div className="col-4">
-              <div className="style-cover">
-                <img src="https://picsum.photos/100" alt="style" />
-              </div>
-            </div>
-            <div className="col-4">
-              <div className="style-cover">
-                <img src="https://picsum.photos/100" alt="style" />
-              </div>
-            </div>
-          </div>
-        </div>
+
         <Divider plain>or</Divider>
         <div className="upload-image">
           <div className="info-text">
@@ -111,6 +48,7 @@ const Sidebar = ({ formik, isLoading }) => {
             onClick={() => formik.handleSubmit()}
             loading={isLoading}
             disabled={isLoading}
+            size="large"
           >
             Generate Image
           </Button>

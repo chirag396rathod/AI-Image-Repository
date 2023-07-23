@@ -14,6 +14,9 @@ export const Header = styled.header`
     color: #8c8c8c;
     font-size: 14px;
   }
+  .input-search {
+    width: 600px;
+  }
 `;
 
 export const DashboardMain = styled.main`

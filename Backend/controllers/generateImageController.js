@@ -9,23 +9,24 @@ dotenv.config();
 
 const handleGetPost = async (req, res) => {
   try {
-    const { prompt, pagination } = req.body;
+    const { prompt, pagination, type } = req.body;
     const page = parseInt(pagination.page);
     const limit = parseInt(pagination.limit);
+    const updatedPrompt = type !== "All" ? type + " " + prompt : prompt;
     const response = await axios({
-      url: `${process.env.LAXICA_AI_API}${prompt}`,
+      url: `${process.env.LAXICA_AI_API}${updatedPrompt}`,
       method: "get",
     });
     const data = response.data;
     const result = PaginationResponse(data.images, page, limit);
     res.status(200).json({ result });
   } catch (error) {
-    res.status(500).send(error?.response?.data?.error?.message);
+    res.status(500).send(error);
   }
 };
 
 const handleUploadPost = async (req, res) => {
-  const { prompt, src, user_id } = req.body;
+  const { prompt, src, user_id, type } = req.body;
   if (!prompt || !src || !user_id) {
     res.status(500).send("Post name or src is require!");
     return;
@@ -40,9 +41,12 @@ const handleUploadPost = async (req, res) => {
 const handleGetAllPost = async (req, res) => {
   const {
     pagination: { page, limit },
+    type,
+    sort,
+    search_str,
   } = req.body;
 
-  const data = await PostModel.aggregate([
+  let aggregationPipeline = [
     {
       $lookup: {
         from: "users",
@@ -51,8 +55,15 @@ const handleGetAllPost = async (req, res) => {
         as: "createdBy",
       },
     },
-  ]);
-
+    { $sort: { createdAt: sort || -1 } },
+  ];
+  if (type && type !== "All") {
+    aggregationPipeline.push({ $match: { type: type || "All" } });
+  }
+  if (search_str) {
+    aggregationPipeline.push({ $match: { prompt: { $regex: search_str } } });
+  }
+  const data = await PostModel.aggregate(aggregationPipeline);
   const paginatedData = PaginationResponse(data, page, limit);
   res
     .status(200)

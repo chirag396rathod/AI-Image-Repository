@@ -86,7 +86,7 @@ const FooterList = styled.div`
   }
 `;
 
-const ImageComponent = ({ data, key, isFrom }) => {
+const ImageComponent = ({ data, key, isFrom, type }) => {
   const rendomFourDigit = Math.trunc(Math.abs(Math.random() * 4));
   const [isLoading, setLoading] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
@@ -105,6 +105,7 @@ const ImageComponent = ({ data, key, isFrom }) => {
           prompt: data?.prompt,
           src: data?.src,
           user_id: USER_ID,
+          type: type || "All",
         },
       });
       if (response?.status === 200) {

@@ -39,3 +39,16 @@ export const data = [
     image: "https://picsum.photos/200/400",
   },
 ];
+
+export const SortMenu = [
+  {
+    key: "1",
+    label: "A to Z",
+    value: -1,
+  },
+  {
+    key: "2",
+    label: "Z to A",
+    value: 1,
+  },
+];

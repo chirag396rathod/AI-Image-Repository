@@ -17,6 +17,7 @@ const FormInput = ({
         required={isRequired}
         tooltip={tooltip}
         label={label}
+        size="large"
         validateStatus={
           formik &&
           formik.errors &&
@@ -47,6 +48,7 @@ const FormInput = ({
         ) : (
           <Input.Password
             name={name}
+            size="large"
             prefix={prefix}
             onKeyUp={(e) => {
               formik && formik.setFieldValue([name], e.target.value);

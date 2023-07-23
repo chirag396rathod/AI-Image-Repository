@@ -8,6 +8,7 @@ import ImageComponent from "../../Components/ImageComponent";
 import { CreatePostPlaceholderIcon } from "../../assets/Images";
 import PaginationComponent from "../../Components/PaginationComponent";
 import { LoaderContainer } from "../../Components/Loader";
+import FiltersTab from "../../Components/FiltersTab";
 
 const ImagePreviwer = ({
   pagination,
@@ -15,6 +16,8 @@ const ImagePreviwer = ({
   title,
   handlePageChange,
   data,
+  handleFilterChange,
+  type,
 }) => {
   const navigator = useNavigate();
   const { page } = useParams();
@@ -24,14 +27,17 @@ const ImagePreviwer = ({
 
   return (
     <ImagePriviwerContainer>
-      <Button
-        className="button-flex"
-        icon={<LeftOutlined />}
-        type="default"
-        onClick={() => navigator(-1)}
-      >
-        Back
-      </Button>
+      <div className="flex-headr">
+        <Button
+          className="button-flex"
+          icon={<LeftOutlined />}
+          type="default"
+          onClick={() => navigator(-1)}
+        >
+          Back
+        </Button>
+        <FiltersTab handleChange={handleFilterChange} />
+      </div>
       {isLoading ? (
         <LoaderContainer />
       ) : (
@@ -54,6 +60,7 @@ const ImagePreviwer = ({
                       data={item}
                       key={key}
                       isFrom="generate-image"
+                      type={type}
                     />
                   ))}
                 </ImageGridContainer>
