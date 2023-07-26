@@ -75,7 +75,10 @@ const SigninPost = async (req, res) => {
       res.status(400).json({ error: "User not found!" });
     }
   } catch (error) {
-    res.status(400).json({ error });
+    if (error) {
+      res.status(400).json({ error });
+    }
+    console.log(error);
   }
 };
 export { SignupPost, SigninPost };
