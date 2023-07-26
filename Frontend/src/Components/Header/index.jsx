@@ -11,8 +11,6 @@ import {
   ROUTE_SIGN_IN,
 } from "../../routes/routes";
 
-const { Search } = Input;
-
 const Header = () => {
   const handleLogout = () => {
     localStorage.clear();
@@ -27,12 +25,6 @@ const Header = () => {
         <div className="title">AI Image Repository</div>
       </Link>
 
-      <Search
-        allowClear
-        placeholder="Search..."
-        className="search-input"
-        onSearch={() => []}
-      />
       <div className="right-section">
         <Tooltip placement="bottom" title="Generate image" color={"black"}>
           <Link to={ROUTE_CREATE_POST_PAGE.replace(":page", 1)}>

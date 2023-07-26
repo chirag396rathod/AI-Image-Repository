@@ -3,11 +3,12 @@ import { Button, Divider } from "antd";
 import { FILTER_TAB_LIST } from "../../Utils/constants";
 import { FiltersTabContainer } from "./styled";
 
-const FiltersTab = () => {
-  const [select, setSelect] = useState(0);
+const FiltersTab = ({ handleChange }) => {
+  const [select, setSelect] = useState("All");
 
-  const handleSelect = (id) => {
-    setSelect(id);
+  const handleSelect = (title) => {
+    setSelect(title);
+    handleChange(title);
   };
 
   return (
@@ -16,9 +17,9 @@ const FiltersTab = () => {
         {FILTER_TAB_LIST.map((item, key) => (
           <>
             <Button
-              type={key === select ? "primary" : "text"}
+              type={item.title === select ? "primary" : "text"}
               key={key}
-              onClick={() => handleSelect(key)}
+              onClick={() => handleSelect(item.title)}
               className="filter-item"
             >
               {item.title}

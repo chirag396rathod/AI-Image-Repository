@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { Badge, Image, Button, Avatar } from "antd";
 import { styled } from "styled-components";
-import { DownloadOutlined, EyeOutlined } from "@ant-design/icons";
+import {
+  CommentOutlined,
+  ShareAltOutlined,
+  HeartOutlined,
+  EyeOutlined,
+  HeartFilled,
+} from "@ant-design/icons";
 import { LoaderImageContainer } from "../Loader";
 import { COLOR_LIST, USER_ID } from "../../Utils/constants";
 import { Toast } from "../Toater";
 import axios from "axios";
+import { FlexBox } from "../../globle-stled";
 
 const ImageComponentContainer = styled.div`
   &:hover {
@@ -23,7 +30,7 @@ const ImageComponentContainer = styled.div`
     max-height: 100%;
     border-radius: 6px;
     box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.1);
-    filter: blur(1);
+    /* filter: blur(1); */
     position: relative;
   }
   &.flow {
@@ -80,13 +87,26 @@ const FooterList = styled.div`
       margin-left: 10px;
     }
   }
-  a {
-    color: #fff !important;
-    font-size: 18px;
+  .icon-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+
+    .index {
+      text-align: color;
+      font: 400 12px Poppins;
+      color: #fff;
+    }
+    .action-icon {
+      font-size: 22px;
+      color: #fff;
+      cursor: pointer;
+    }
   }
 `;
 
-const ImageComponent = ({ data, key, isFrom }) => {
+const ImageComponent = ({ data, key, isFrom, type }) => {
   const rendomFourDigit = Math.trunc(Math.abs(Math.random() * 4));
   const [isLoading, setLoading] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
@@ -105,6 +125,7 @@ const ImageComponent = ({ data, key, isFrom }) => {
           prompt: data?.prompt,
           src: data?.src,
           user_id: USER_ID,
+          type: type || "All",
         },
       });
       if (response?.status === 200) {
@@ -187,9 +208,21 @@ const ImageComponent = ({ data, key, isFrom }) => {
                   </Avatar>
                   <div className="user-data">{data?.createdBy[0]?.name}</div>
                 </div>
-                <a href={data.src} download target="_blank">
-                  <DownloadOutlined className="download" />
-                </a>
+                <FlexBox>
+                  <div className="icon-div dual-icon-cover">
+                    <HeartOutlined className="action-icon show-icon" />
+                    <HeartFilled className="action-icon show-hover-icon" />
+                    <div className="index mt-2">10K</div>
+                  </div>
+                  <div className="icon-div">
+                    <CommentOutlined className="action-icon mx-3" />
+                    <div className="index mt-2">2.5K</div>
+                  </div>
+                  <div className="icon-div">
+                    <ShareAltOutlined className="action-icon" />
+                    <div className="index  mt-2">2K</div>
+                  </div>
+                </FlexBox>
               </FooterList>
             </div>
           )}

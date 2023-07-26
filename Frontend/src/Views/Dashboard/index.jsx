@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
-import {
-  DownOutlined,
-  AppstoreOutlined,
-  PicCenterOutlined,
-} from "@ant-design/icons";
+import { DownOutlined, AppstoreOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { Dropdown, message, Space, Button, Tooltip, Tag, Badge } from "antd";
+import { Dropdown, message, Space, Button, Tooltip, Empty, Input } from "antd";
 
 import ImageComponent from "../../Components/ImageComponent";
 import FiltersTab from "../../Components/FiltersTab";
 import { SortIcon } from "../../assets/Images";
+import { SortMenu } from "./data";
 import { DashboardContainer, DashboardMain, Header } from "./styled";
 import { ROUTE_EXPLORE_PAGE } from "../../routes/routes";
 import { ImageGridContainer } from "../../globle-stled";
@@ -21,19 +18,23 @@ import { apiInstance } from "../../Utils/axios";
 const Dashboard = () => {
   const [imagesList, setImagesList] = useState([]);
   const [isLoading, setLoading] = useState(false);
+  const [filter, setFilter] = useState("All");
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 10,
     total: 0,
   });
 
-  const refresh = async (page) => {
+  const refresh = async (page, type, sort, search_str) => {
     try {
       setLoading(true);
       const response = await apiInstance({
         method: "POST",
         url: `${import.meta.env.VITE_BASE__DEV_API_URL}/get-share-image`,
         data: {
+          type: type || "All",
+          sort: sort || -1,
+          search_str: search_str || "",
           pagination: {
             page: page || 1,
             limit: 10,
@@ -47,13 +48,13 @@ const Dashboard = () => {
         setPagination({
           page: page || 1,
           limit: 10,
-          total: data?.next?.totle || pagination.total,
+          total: data?.totle || pagination.total,
         });
       }
     } catch (error) {
       if (error) {
         setLoading(false);
-        console.log(error);
+
         Toast({
           type: "error",
           massage:
@@ -64,11 +65,16 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    refresh();
+    refresh(1, filter);
   }, []);
 
   const onClick = ({ key }) => {
     message.info(`Click on item ${key}`);
+  };
+
+  const handleChangeSort = (data) => {
+    const { value } = data?.item?.props;
+    refresh(1, filter, value);
   };
 
   const items = [
@@ -87,34 +93,53 @@ const Dashboard = () => {
   ];
 
   const handlePageChange = (page) => {
-    if (page) {
-      refresh(page);
-
-      setPagination({
-        page: page,
-        limit: 10,
-        total: pagination.total,
-      });
-    }
+    refresh(page, filter);
+    setPagination({
+      page: page,
+      limit: 10,
+      total: pagination.total,
+    });
   };
 
   const startIndex = (pagination.page - 1) * 10;
   const endIndex = pagination.page * 10;
 
+  const handleChangeFilter = (type) => {
+    refresh(1, type);
+    setPagination({
+      page: 1,
+      limit: 10,
+      total: pagination.total,
+    });
+    setFilter(type);
+  };
+
+  const handleSearch = (value) => {
+    refresh(1, filter, -1, value);
+  };
+
   return (
     <DashboardContainer>
-      <FiltersTab />
+      <FiltersTab handleChange={handleChangeFilter} />
       <div className="container-xxl">
         <Header className="my-4">
           <div className="left-side">
-            <Tooltip placement="bottom" title="Sort" color={"black"}>
+            <Dropdown menu={{ items: SortMenu, onClick: handleChangeSort }}>
               <img src={SortIcon} alt="" />
-            </Tooltip>
+            </Dropdown>
             <Tooltip placement="bottom" title="Expore Now! 🧐" color={"black"}>
               <Button className="mx-4">
                 <Link to={ROUTE_EXPLORE_PAGE}>Explore Random Prompts 🤯</Link>
               </Button>
             </Tooltip>
+          </div>
+          <div className="input-search">
+            <Input.Search
+              placeholder="Search images... "
+              enterButton="Search"
+              onSearch={(e) => handleSearch(e)}
+              loading={isLoading}
+            />
           </div>
           <div className="right-side">
             <div className="page-index ">
@@ -144,12 +169,6 @@ const Dashboard = () => {
             <Tooltip placement="bottom" title="Grid View" color={"black"}>
               <AppstoreOutlined style={{ fontSize: "120%" }} />
             </Tooltip>
-            <Tooltip placement="bottom" title="List View" color={"black"}>
-              <PicCenterOutlined
-                className="mx-3"
-                style={{ fontSize: "120%" }}
-              />
-            </Tooltip>
           </div>
         </Header>
         <DashboardMain>
@@ -159,13 +178,25 @@ const Dashboard = () => {
               <LoaderContainer />
             </>
           ) : (
-            <ImageGridContainer>
-              <>
-                {imagesList.map((item, key) => (
-                  <ImageComponent data={item} key={key} isFrom="dashboard" />
-                ))}
-              </>
-            </ImageGridContainer>
+            <>
+              {imagesList.length === 0 ? (
+                <>
+                  <Empty />
+                </>
+              ) : (
+                <ImageGridContainer>
+                  {imagesList.map((item, key) => (
+                    <>
+                      <ImageComponent
+                        data={item}
+                        key={key}
+                        isFrom="dashboard"
+                      />
+                    </>
+                  ))}
+                </ImageGridContainer>
+              )}
+            </>
           )}
 
           <PaginationComponent

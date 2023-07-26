@@ -115,3 +115,9 @@ export const AuthContainer = styled.div`
     margin-top: 20px;
   }
 `;
+
+export const FlexBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;

@@ -26,6 +26,7 @@ export const SidebarContainer = styled.div`
   min-height: calc(100vh - 79px);
   width: 100%;
   position: relative;
+
   .ant-divider-with-text {
     margin: 0 !important;
   }
@@ -113,7 +114,11 @@ export const SidebarContainer = styled.div`
 
 export const ImagePriviwerContainer = styled.div`
   padding: 20px 20px 0 20px;
-
+  .flex-headr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   header {
     display: flex;
     justify-content: space-between;
@@ -123,7 +128,7 @@ export const ImagePriviwerContainer = styled.div`
     font-size: 15px;
   }
   .container-border {
-    max-height: calc(100vh - 188px);
+    max-height: calc(100vh - 215px);
     height: 100%;
     overflow: scroll;
     &::-webkit-scrollbar {

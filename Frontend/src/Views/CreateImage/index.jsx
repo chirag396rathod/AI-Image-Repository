@@ -22,11 +22,11 @@ const CreateImage = () => {
   });
   const [imagesList, setImagesList] = useState([]);
   const [isLoading, setLoading] = useState(false);
-  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("All");
   const { page } = useParams();
   const navigator = useNavigate();
 
-  const fetchImages = async (values, page) => {
+  const fetchImages = async (values, page, type) => {
     setLoading(true);
     try {
       const respose = await axios({
@@ -34,6 +34,7 @@ const CreateImage = () => {
         method: "post",
         data: {
           prompt: values.description || values,
+          type: type || selectedFilter,
           pagination: {
             page: parseInt(page) || pagination.page,
             limit: 10,
@@ -44,23 +45,16 @@ const CreateImage = () => {
       if (result) {
         setLoading(false);
         setImagesList(result.data);
-        if (result?.next?.page) {
-          setPagination({
-            page: result?.next.page,
-            limit: 10,
-            total: result?.next.totle,
-          });
-        } else {
-          setPagination({
-            page: parseInt(page),
-            limit: 10,
-            total: pagination.total,
-          });
-        }
+        setPagination({
+          page: parseInt(page) || pagination.page,
+          limit: 10,
+          total: result?.next?.totle,
+        });
       }
     } catch (error) {
       if (error) {
         setLoading(false);
+
         Toast({
           type: "error",
           massage:
@@ -89,9 +83,11 @@ const CreateImage = () => {
     });
   };
 
-  const handleSelectImage = (id) => {
-    setSelectedImage(id);
+  const handleFilterChange = (item) => {
+    fetchImages(formik.values.description, pagination.page, item);
+    setSelectedFilter(item);
   };
+
   return (
     <CreateImageContainer className="container-fluid">
       <div className="row">
@@ -102,6 +98,8 @@ const CreateImage = () => {
             handlePageChange={handlePageChange}
             data={imagesList}
             isLoading={isLoading}
+            handleFilterChange={handleFilterChange}
+            type={selectedFilter}
           />
         </div>
         <div className="col-3">

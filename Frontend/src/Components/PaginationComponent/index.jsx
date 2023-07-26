@@ -16,6 +16,7 @@ const PaginationComponent = ({ curruntIndex, total, handlePageChange }) => {
         defaultCurrent={curruntIndex || 1}
         total={total || 50}
         onChange={(e) => handlePageChange(e)}
+        showSizeChanger={false}
       />
     </PaginationComponentContainer>
   );

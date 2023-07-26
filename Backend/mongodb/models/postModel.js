@@ -10,6 +10,10 @@ const imagePostModel = new mongoose.Schema(
       type: String,
       required: [true, "Please enter a prompt"],
     },
+    type: {
+      type: String,
+      required: [true, "Please enter a type"],
+    },
     user_id: {
       type: mongoose.Types.ObjectId,
       required: [true, "Please enter user id"],

@@ -24,3 +24,16 @@ a {
   justify-content: center;
   align-items: center;
 }
+.dual-icon-cover {
+  .show-hover-icon {
+    display: none;
+  }
+  &:hover {
+    .show-hover-icon {
+      display: block !important;
+    }
+    .show-icon {
+      display: none !important;
+    }
+  }
+}
