@@ -9,15 +9,14 @@ import { Dropdown, message, Space, Button, Tooltip, Tag, Badge } from "antd";
 
 import ImageComponent from "../../Components/ImageComponent";
 import FiltersTab from "../../Components/FiltersTab";
-import { data } from "./data";
 import { SortIcon } from "../../assets/Images";
 import { DashboardContainer, DashboardMain, Header } from "./styled";
 import { ROUTE_EXPLORE_PAGE } from "../../routes/routes";
 import { ImageGridContainer } from "../../globle-stled";
 import PaginationComponent from "../../Components/PaginationComponent";
 import { Toast } from "../../Components/Toater";
-import axios from "axios";
 import { LoaderContainer } from "../../Components/Loader";
+import { apiInstance } from "../../Utils/axios";
 
 const Dashboard = () => {
   const [imagesList, setImagesList] = useState([]);
@@ -31,9 +30,9 @@ const Dashboard = () => {
   const refresh = async (page) => {
     try {
       setLoading(true);
-      const response = await axios({
+      const response = await apiInstance({
         method: "POST",
-        url: `${import.meta.env.VITE_BASE_API_URL}/get-share-image`,
+        url: `${import.meta.env.VITE_BASE__DEV_API_URL}/get-share-image`,
         data: {
           pagination: {
             page: page || 1,
@@ -88,13 +87,15 @@ const Dashboard = () => {
   ];
 
   const handlePageChange = (page) => {
-    refresh(page);
+    if (page) {
+      refresh(page);
 
-    setPagination({
-      page: page,
-      limit: 10,
-      total: pagination.total,
-    });
+      setPagination({
+        page: page,
+        limit: 10,
+        total: pagination.total,
+      });
+    }
   };
 
   const startIndex = (pagination.page - 1) * 10;

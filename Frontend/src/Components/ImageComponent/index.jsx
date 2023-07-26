@@ -100,7 +100,7 @@ const ImageComponent = ({ data, key, isFrom }) => {
       setLoading(true);
       const response = await axios({
         method: "post",
-        url: `${import.meta.env.VITE_BASE_API_URL}/share-image`,
+        url: `${import.meta.env.VITE_BASE__DEV_API_URL}/share-image`,
         data: {
           prompt: data?.prompt,
           src: data?.src,
