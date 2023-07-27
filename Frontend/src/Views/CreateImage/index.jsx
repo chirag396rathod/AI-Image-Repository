@@ -10,6 +10,7 @@ import ImagePreviwer from "./ImagePreviwer";
 import { useFormik } from "formik";
 import axios from "axios";
 import { ROUTE_CREATE_POST_PAGE } from "../../routes/routes";
+import { apiInstance } from "../../Utils/axios";
 
 const descriptionShema = Yup.object().shape({
   description: Yup.string().required("Description is required."),
@@ -29,8 +30,8 @@ const CreateImage = () => {
   const fetchImages = async (values, page, type) => {
     setLoading(true);
     try {
-      const respose = await axios({
-        url: `${import.meta.env.VITE_BASE_API_URL}/generate-image`,
+      const respose = await apiInstance({
+        url: `${import.meta.env.VITE_BASE__DEV_API_URL}/generate-image`,
         method: "post",
         data: {
           prompt: values.description || values,

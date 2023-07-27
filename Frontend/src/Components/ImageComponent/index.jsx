@@ -13,6 +13,7 @@ import { COLOR_LIST, USER_ID } from "../../Utils/constants";
 import { Toast } from "../Toater";
 import axios from "axios";
 import { FlexBox } from "../../globle-stled";
+import { apiInstance } from "../../Utils/axios";
 
 const ImageComponentContainer = styled.div`
   &:hover {
@@ -118,9 +119,9 @@ const ImageComponent = ({ data, key, isFrom, type }) => {
   const handleShare = async (data) => {
     try {
       setLoading(true);
-      const response = await axios({
+      const response = await apiInstance({
         method: "post",
-        url: `${import.meta.env.VITE_BASE_API_URL}/share-image`,
+        url: `${import.meta.env.VITE_BASE__DEV_API_URL}/share-image`,
         data: {
           prompt: data?.prompt,
           src: data?.src,

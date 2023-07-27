@@ -11,6 +11,7 @@ import { RANDOM_PROMPTS } from "../../Utils/constants";
 import { LoaderContainer } from "../../Components/Loader";
 import { Toast } from "../../Components/Toater";
 import axios from "axios";
+import { apiInstance } from "../../Utils/axios";
 
 const ExplorePromtsContainer = styled.div`
   .main-title {
@@ -44,8 +45,8 @@ const ExplorePromts = () => {
     setSearchvalue(RANDOM_PROMPTS[rendom_index]);
     setLoading(true);
     try {
-      const respose = await axios({
-        url: `${import.meta.env.VITE_BASE_API_URL}/generate-image`,
+      const respose = await apiInstance({
+        url: `${import.meta.env.VITE_BASE__DEV_API_URL}/generate-image`,
         method: "post",
         data: {
           prompt: RANDOM_PROMPTS[rendom_index],

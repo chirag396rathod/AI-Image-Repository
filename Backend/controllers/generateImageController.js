@@ -1,9 +1,8 @@
 import * as dotenv from "dotenv";
 import { PaginationResponse } from "../contants/contants.js";
-import { PostModel } from "../mongodb/models/postModel.js";
+import { PostLikeModel, PostModel } from "../mongodb/models/postModel.js";
 import axios from "axios";
 import { User } from "../mongodb/models/userModel.js";
-import mongoose from "mongoose";
 
 dotenv.config();
 
@@ -70,4 +69,104 @@ const handleGetAllPost = async (req, res) => {
     .json({ success: "1", status: 200, error: "0", data: paginatedData });
 };
 
-export { handleGetPost, handleUploadPost, handleGetAllPost };
+const handleLikeAndDislike = async (req, res) => {
+  const { post_id, user_id, action_val } = req.body;
+
+  if (!post_id || !user_id || action_val === (null || undefined)) {
+    return res.status(400).json({
+      success: "0",
+      status: 400,
+      error: "1",
+      message: "Required param are missing!",
+    });
+  }
+
+  const isValidPostId = await PostModel.findOne({
+    _id: post_id,
+  });
+  if (!isValidPostId) {
+    return res.status(400).json({
+      success: "0",
+      status: 400,
+      error: "1",
+      message: "Invalid Post Id",
+    });
+  }
+  const isValidUserId = await User.findOne({ _id: user_id });
+  if (!isValidUserId) {
+    return res.status(400).json({
+      success: "0",
+      status: 400,
+      error: "1",
+      message: "Invalid User Id",
+    });
+  }
+  const userLikedObj = await PostLikeModel.findOne({
+    user_id: user_id,
+    post_id: post_id,
+  });
+  if (userLikedObj) {
+    try {
+      const isDone = await PostLikeModel.updateOne(
+        {
+          _id: userLikedObj._id,
+        },
+        {
+          is_liked: parseInt(action_val),
+        }
+      );
+      if (isDone) {
+        return res.status(400).json({
+          success: "1",
+          status: 200,
+          error: "0",
+          message: `Success!`,
+        });
+      }
+    } catch (error) {
+      if (error) {
+        return res.status(400).json({
+          success: "0",
+          status: 400,
+          error: "1",
+          message: "Error while update record",
+        });
+      }
+    }
+  } else {
+    try {
+      const isCreateLiked = await new PostLikeModel({
+        is_liked: parseInt(action_val),
+        user_id,
+        post_id,
+      });
+      const done = isCreateLiked.save();
+      if (done) {
+        return res.status(400).json({
+          success: "1",
+          status: 200,
+          error: "0",
+          message: `Success!`,
+          data: {
+            ...done,
+          },
+        });
+      }
+    } catch (error) {
+      if (error) {
+        return res.status(400).json({
+          success: "0",
+          status: 400,
+          error: "1",
+          message: "Error while liked post",
+        });
+      }
+    }
+  }
+};
+export {
+  handleGetPost,
+  handleUploadPost,
+  handleGetAllPost,
+  handleLikeAndDislike,
+};

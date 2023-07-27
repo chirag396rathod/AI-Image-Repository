@@ -30,7 +30,7 @@ const Dashboard = () => {
       setLoading(true);
       const response = await apiInstance({
         method: "POST",
-        url: `${import.meta.env.VITE_BASE_API_URL}/get-share-image`,
+        url: `${import.meta.env.VITE_BASE__DEV_API_URL}/get-share-image`,
         data: {
           type: type || "All",
           sort: sort || -1,

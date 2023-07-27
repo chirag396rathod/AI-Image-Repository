@@ -24,5 +24,21 @@ const imagePostModel = new mongoose.Schema(
   }
 );
 
+const Post_likes = new mongoose.Schema({
+  post_id: {
+    type: String,
+    required: [true, "Please enter post id"],
+  },
+  user_id: {
+    type: String,
+    required: [true, "Please enter user id"],
+  },
+  is_liked: {
+    type: Number,
+    default: 0,
+  },
+});
+
 const PostModel = mongoose.model("posts", imagePostModel);
-export { PostModel };
+const PostLikeModel = mongoose.model("post_likes", Post_likes);
+export { PostModel, PostLikeModel };

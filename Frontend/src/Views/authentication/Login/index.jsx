@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { useFormik } from "formik";
+import { Card, Form, Input, Button, Checkbox } from "antd";
 import * as Yup from "yup";
-import { Card, Form, Input, Button } from "antd";
+import Cookies from "js-cookie";
 import {
   CheckCircleOutlined,
   LockOutlined,
@@ -32,6 +33,7 @@ const Login = () => {
     initialValues: {
       email: "",
       password: "",
+      remember_me: false,
     },
     validationSchema: LoginShema,
     onSubmit: async (data) => {
@@ -42,7 +44,7 @@ const Login = () => {
       try {
         setLoading(true);
         const response = await axios({
-          url: `${import.meta.env.VITE_BASE_API_URL}/sign-in`,
+          url: `${import.meta.env.VITE_BASE__DEV_API_URL}/sign-in`,
           method: "POST",
           data: {
             ...requiredObj,
@@ -53,6 +55,11 @@ const Login = () => {
           localStorage.setItem("access_token", jwttoken);
           localStorage.setItem("user_email", user.email);
           localStorage.setItem("user_id", user.id);
+          if (data.remember_me) {
+            localStorage.setItem("remember_me", true);
+          } else {
+            Cookies.set("remember_me_token", jwttoken);
+          }
           Toast({ type: "success", massage: "Login successfully!" });
           window.location.href = ROUTE_HOME_PAGE;
         }
@@ -69,6 +76,11 @@ const Login = () => {
       }
     },
   });
+
+  const handleCheck = ({ target }) => {
+    const { checked } = target;
+    formik.setValues({ ...formik.values, remember_me: checked });
+  };
   return (
     <AuthContainer>
       <div className="row">
@@ -107,6 +119,11 @@ const Login = () => {
                   formik={formik}
                   prefix={<LockOutlined className="site-form-item-icon" />}
                 />
+                <Checkbox
+                  checked={formik.values.remember_me}
+                  onChange={(e) => handleCheck(e)}
+                />
+                <span className="label-remember">Remember me?</span>
                 <Button
                   type="primary"
                   style={{ width: "100%" }}

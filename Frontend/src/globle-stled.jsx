@@ -28,6 +28,12 @@ export const AuthContainer = styled.div`
   .row {
     margin: 0 !important;
   }
+  .label-remember {
+    font: 500 14px Poppins;
+    color: #8c8c8c;
+    display: inline-flex;
+    margin-left: 12px;
+  }
   .col-8,
   .col-4 {
     padding: 0 !important;
