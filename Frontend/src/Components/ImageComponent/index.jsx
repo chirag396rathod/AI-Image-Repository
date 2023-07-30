@@ -14,6 +14,7 @@ import { Toast } from "../Toater";
 import axios from "axios";
 import { FlexBox } from "../../globle-stled";
 import { apiInstance } from "../../Utils/axios";
+import CommentModal from "../CommentModal";
 
 const ImageComponentContainer = styled.div`
   &:hover {
@@ -110,21 +111,30 @@ const FooterList = styled.div`
 const ImageComponent = ({ data, key, isFrom, type }) => {
   const rendomFourDigit = Math.trunc(Math.abs(Math.random() * 4));
   const [isLoading, setLoading] = useState(false);
+  const [isOpenComment, setIsOpenComment] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+  const [post, setPost] = useState(data);
+  const [selectedId, setSelectedId] = useState(null);
+  const [input, setInput] = useState("");
 
   const handlePreview = () => {
     setShowPreview(!showPreview);
   };
 
-  const handleShare = async (data) => {
+  const handleComment = (id) => {
+    setIsOpenComment(!isOpenComment);
+    setSelectedId(id || null);
+  };
+
+  const handleShare = async () => {
     try {
       setLoading(true);
       const response = await apiInstance({
         method: "post",
-        url: `${import.meta.env.VITE_BASE__DEV_API_URL}/share-image`,
+        url: `${import.meta.env.VITE_BASE_API_URL}/share-image`,
         data: {
-          prompt: data?.prompt,
-          src: data?.src,
+          prompt: post?.prompt,
+          src: post?.src,
           user_id: USER_ID,
           type: type || "All",
         },
@@ -139,7 +149,37 @@ const ImageComponent = ({ data, key, isFrom, type }) => {
     } catch (error) {
       if (error) {
         setLoading(false);
+        Toast({
+          type: "error",
+          massage:
+            error?.response?.data?.error?.message || "Somthing went wrong!",
+        });
+      }
+    }
+  };
 
+  const handleLike = async (post_id, user_id, action_val) => {
+    try {
+      const response = await apiInstance({
+        method: "post",
+        url: `${import.meta.env.VITE_BASE_API_URL}/like-dislike`,
+        data: {
+          post_id,
+          user_id,
+          action_val: action_val ? 0 : 1,
+        },
+      });
+      const { status } = response;
+      if (status === 200) {
+        const newArray = { ...data };
+        newArray.isLiked = action_val ? false : true;
+        newArray.total_likes = action_val
+          ? parseInt(post.total_likes) - 1
+          : parseInt(post.total_likes) + 1;
+        setPost(newArray);
+      }
+    } catch (error) {
+      if (error) {
         Toast({
           type: "error",
           massage:
@@ -150,7 +190,7 @@ const ImageComponent = ({ data, key, isFrom, type }) => {
   };
 
   return (
-    <>
+    <div key={key}>
       <Badge.Ribbon
         text="Selected"
         style={{
@@ -171,7 +211,7 @@ const ImageComponent = ({ data, key, isFrom, type }) => {
             {isFrom && isFrom === "generate-image" && (
               <Button
                 type="primary"
-                onClick={() => handleShare(data)}
+                onClick={() => handleShare(post)}
                 loading={isLoading}
               >
                 Share
@@ -181,7 +221,7 @@ const ImageComponent = ({ data, key, isFrom, type }) => {
           <Image
             width={"100%"}
             className="content flow"
-            src={data.src}
+            src={post.src}
             placeholder={<LoaderImageContainer />}
             preview={{
               visible: showPreview,
@@ -194,7 +234,7 @@ const ImageComponent = ({ data, key, isFrom, type }) => {
           {isFrom === "dashboard" && (
             <div className="label">
               <span className="title">
-                {data.prompt.substring(0, 50) + "..."}
+                {post.prompt.substring(0, 50) + "..."}
               </span>
               <FooterList>
                 <div className="left">
@@ -205,19 +245,39 @@ const ImageComponent = ({ data, key, isFrom, type }) => {
                     }}
                     size="large"
                   >
-                    {data?.createdBy[0]?.name?.split("")[0]}
+                    {post?.createdBy[0]?.name?.split("")[0]}
                   </Avatar>
-                  <div className="user-data">{data?.createdBy[0]?.name}</div>
+                  <div className="user-data">{post?.createdBy[0]?.name}</div>
                 </div>
                 <FlexBox>
                   <div className="icon-div dual-icon-cover">
-                    <HeartOutlined className="action-icon show-icon" />
-                    <HeartFilled className="action-icon show-hover-icon" />
-                    <div className="index mt-2">10K</div>
+                    {post?.isLiked ? (
+                      <HeartFilled
+                        className="action-icon "
+                        onClick={() =>
+                          handleLike(post?._id, post?.user_id, post?.isLiked)
+                        }
+                      />
+                    ) : (
+                      <>
+                        <HeartOutlined className="action-icon show-icon" />
+                        <HeartFilled
+                          className="action-icon show-hover-icon"
+                          onClick={() =>
+                            handleLike(post?._id, post?.user_id, post?.isLiked)
+                          }
+                        />
+                      </>
+                    )}
+
+                    <div className="index mt-2">{post?.total_likes}</div>
                   </div>
                   <div className="icon-div">
-                    <CommentOutlined className="action-icon mx-3" />
-                    <div className="index mt-2">2.5K</div>
+                    <CommentOutlined
+                      className="action-icon mx-3"
+                      onClick={() => handleComment(post)}
+                    />
+                    <div className="index mt-2">{post?.total_comment}</div>
                   </div>
                   <div className="icon-div">
                     <ShareAltOutlined className="action-icon" />
@@ -229,7 +289,19 @@ const ImageComponent = ({ data, key, isFrom, type }) => {
           )}
         </ImageComponentContainer>
       </Badge.Ribbon>
-    </>
+      {isOpenComment && (
+        <CommentModal
+          isOpen={isOpenComment}
+          toggle={handleComment}
+          footer={null}
+          data={selectedId}
+          setInput={setInput}
+          input={input}
+          setPost={setPost}
+          post={post}
+        />
+      )}
+    </div>
   );
 };
 

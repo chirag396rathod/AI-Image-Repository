@@ -46,7 +46,7 @@ const ExplorePromts = () => {
     setLoading(true);
     try {
       const respose = await apiInstance({
-        url: `${import.meta.env.VITE_BASE__DEV_API_URL}/generate-image`,
+        url: `${import.meta.env.VITE_BASE_API_URL}/generate-image`,
         method: "post",
         data: {
           prompt: RANDOM_PROMPTS[rendom_index],

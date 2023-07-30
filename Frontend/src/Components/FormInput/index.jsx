@@ -39,6 +39,7 @@ const FormInput = ({
             onBlur={() => formik && formik.setFieldTouched([name])}
             placeholder={placeholder}
             status={
+              formik &&
               formik.errors &&
               formik.errors[name] &&
               formik.touched[name] &&
@@ -56,6 +57,7 @@ const FormInput = ({
             onBlur={() => formik && formik.setFieldTouched([name])}
             placeholder={placeholder}
             status={
+              formik &&
               formik.errors &&
               formik.errors[name] &&
               formik.touched[name] &&

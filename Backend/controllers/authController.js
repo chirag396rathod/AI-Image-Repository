@@ -34,7 +34,6 @@ const SignupPost = async (req, res) => {
       name,
       email,
       password,
-      _id: mongoose.Types.ObjectId(),
     });
     const jwt = createToken(user._id);
     res.status(201).json({

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Image } from "antd";
 import { LeftOutlined } from "@ant-design/icons";
+
 import { ImagePriviwerContainer } from "./styled";
 import { ImageGridContainer } from "../../globle-stled";
 import ImageComponent from "../../Components/ImageComponent";
@@ -36,7 +37,7 @@ const ImagePreviwer = ({
         >
           Back
         </Button>
-        <FiltersTab handleChange={handleFilterChange} />
+        {data.length > 0 && <FiltersTab handleChange={handleFilterChange} />}
       </div>
       {isLoading ? (
         <LoaderContainer />

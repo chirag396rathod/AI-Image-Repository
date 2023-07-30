@@ -26,11 +26,11 @@ const imagePostModel = new mongoose.Schema(
 
 const Post_likes = new mongoose.Schema({
   post_id: {
-    type: String,
+    type: mongoose.Types.ObjectId,
     required: [true, "Please enter post id"],
   },
   user_id: {
-    type: String,
+    type: mongoose.Types.ObjectId,
     required: [true, "Please enter user id"],
   },
   is_liked: {
@@ -39,6 +39,26 @@ const Post_likes = new mongoose.Schema({
   },
 });
 
+const Comment_model = new mongoose.Schema(
+  {
+    post_id: {
+      type: mongoose.Types.ObjectId,
+      required: [true, "Please enter post id"],
+    },
+    user_id: {
+      type: mongoose.Types.ObjectId,
+      required: [true, "Please enter user id"],
+    },
+    comment_title: {
+      type: String,
+      required: [true, "Please enter comment"],
+    },
+  },
+  {
+    timestamps: { createdAt: true },
+  }
+);
 const PostModel = mongoose.model("posts", imagePostModel);
 const PostLikeModel = mongoose.model("post_likes", Post_likes);
-export { PostModel, PostLikeModel };
+const CommentModel = mongoose.model("post_comment", Comment_model);
+export { PostModel, PostLikeModel, CommentModel };

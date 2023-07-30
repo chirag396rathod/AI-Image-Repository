@@ -53,7 +53,7 @@ const Registration = () => {
       try {
         setLoading(true);
         const response = await axios({
-          url: `${import.meta.env.VITE_BASE__DEV_API_URL}/sign-up`,
+          url: `${import.meta.env.VITE_BASE_API_URL}/sign-up`,
           method: "POST",
           data: {
             ...requiredObj,

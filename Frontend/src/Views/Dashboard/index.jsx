@@ -30,7 +30,7 @@ const Dashboard = () => {
       setLoading(true);
       const response = await apiInstance({
         method: "POST",
-        url: `${import.meta.env.VITE_BASE__DEV_API_URL}/get-share-image`,
+        url: `${import.meta.env.VITE_BASE_API_URL}/get-share-image`,
         data: {
           type: type || "All",
           sort: sort || -1,
@@ -64,17 +64,15 @@ const Dashboard = () => {
     }
   };
 
-  useEffect(() => {
-    refresh(1, filter);
-  }, []);
-
   const onClick = ({ key }) => {
     message.info(`Click on item ${key}`);
   };
 
   const handleChangeSort = (data) => {
     const { value } = data?.item?.props;
-    refresh(1, filter, value);
+    if (value) {
+      refresh(1, filter, value);
+    }
   };
 
   const items = [
@@ -115,8 +113,16 @@ const Dashboard = () => {
   };
 
   const handleSearch = (value) => {
-    refresh(1, filter, -1, value);
+    if (value) {
+      refresh(1, filter, -1, value);
+    }
   };
+
+  useEffect(() => {
+    if (filter) {
+      refresh(1, filter);
+    }
+  }, [filter]);
 
   return (
     <DashboardContainer>
