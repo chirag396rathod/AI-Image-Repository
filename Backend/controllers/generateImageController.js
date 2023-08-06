@@ -82,7 +82,7 @@ const handleGetAllPost = async (req, res) => {
     {
       $lookup: {
         from: "post_likes",
-        let: { post_id: "$_id", user_id: user_id },
+        let: { post_id: "$_id", user_id: new ObjectId(user_id) },
         pipeline: [
           {
             $match: {
@@ -110,7 +110,6 @@ const handleGetAllPost = async (req, res) => {
     { $sort: { createdAt: sort || -1 } },
     {
       $project: {
-        likedPosts: 0,
         likes: 0,
         comments: 0,
         "createdBy.password": 0,

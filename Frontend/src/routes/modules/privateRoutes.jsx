@@ -1,4 +1,5 @@
 import {
+  ROUTE_CHAT,
   ROUTE_CREATE_POST_PAGE,
   ROUTE_EXPLORE_PAGE,
   ROUTE_HOME_PAGE,
@@ -9,6 +10,7 @@ import Dashboard from "../../Views/Dashboard";
 import ExplorePromts from "../../Views/ExplorePromts";
 import CreateImage from "../../Views/CreateImage";
 import DashboardLayout from "../../Layout/DashboardLayout";
+import Chat from "../../Views/Chat";
 
 const routes = [
   {
@@ -40,6 +42,14 @@ const routes = [
     component: (props) => (
       <DashboardLayout>
         <CreateImage {...props} />
+      </DashboardLayout>
+    ),
+  },
+  {
+    path: ROUTE_CHAT,
+    component: (props) => (
+      <DashboardLayout>
+        <Chat {...props} />
       </DashboardLayout>
     ),
   },

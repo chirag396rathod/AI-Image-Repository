@@ -15,6 +15,7 @@ import axios from "axios";
 import { FlexBox } from "../../globle-stled";
 import { apiInstance } from "../../Utils/axios";
 import CommentModal from "../CommentModal";
+import ShareOnChatModal from "../ShareOnChatModal";
 
 const ImageComponentContainer = styled.div`
   &:hover {
@@ -116,6 +117,10 @@ const ImageComponent = ({ data, key, isFrom, type }) => {
   const [post, setPost] = useState(data);
   const [selectedId, setSelectedId] = useState(null);
   const [input, setInput] = useState("");
+  const [isOpenShareModal, setIsOpenShareModal] = useState({
+    id: null,
+    isOpen: false,
+  });
 
   const handlePreview = () => {
     setShowPreview(!showPreview);
@@ -186,6 +191,20 @@ const ImageComponent = ({ data, key, isFrom, type }) => {
             error?.response?.data?.error?.message || "Somthing went wrong!",
         });
       }
+    }
+  };
+
+  const handleOnShare = (data = null) => {
+    if (data) {
+      setIsOpenShareModal({
+        id: data,
+        isOpen: !isOpenShareModal.isOpen,
+      });
+    } else {
+      setIsOpenShareModal({
+        ...isOpenShareModal,
+        isOpen: !isOpenShareModal.isOpen,
+      });
     }
   };
 
@@ -280,7 +299,10 @@ const ImageComponent = ({ data, key, isFrom, type }) => {
                     <div className="index mt-2">{post?.total_comment}</div>
                   </div>
                   <div className="icon-div">
-                    <ShareAltOutlined className="action-icon" />
+                    <ShareAltOutlined
+                      className="action-icon"
+                      onClick={() => handleOnShare(data)}
+                    />
                     <div className="index  mt-2">2K</div>
                   </div>
                 </FlexBox>
@@ -299,6 +321,14 @@ const ImageComponent = ({ data, key, isFrom, type }) => {
           input={input}
           setPost={setPost}
           post={post}
+        />
+      )}
+      {isOpenShareModal.isOpen && (
+        <ShareOnChatModal
+          isOpen={isOpenShareModal}
+          toggle={handleOnShare}
+          footer={null}
+          data={isOpenComment}
         />
       )}
     </div>
