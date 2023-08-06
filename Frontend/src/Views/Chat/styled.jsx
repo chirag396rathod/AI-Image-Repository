@@ -36,7 +36,7 @@ export const SidebarContainer = styled.div`
           color: rgba(255, 255, 255, 0.8) !important;
         }
         .time {
-          color: #000 !important;
+          color: #fff !important;
         }
       }
     }
@@ -77,7 +77,7 @@ export const SidebarContainer = styled.div`
         .text {
           font: 400 14px Poppins;
           color: rgba(5, 5, 5, 0.5);
-          min-width: 75%;
+          min-width: 70%;
         }
         .time {
           margin-left: 10px;
