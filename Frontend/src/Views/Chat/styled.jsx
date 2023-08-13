@@ -77,7 +77,10 @@ export const SidebarContainer = styled.div`
         .text {
           font: 400 14px Poppins;
           color: rgba(5, 5, 5, 0.5);
-          min-width: 70%;
+          min-width: 73%;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
         }
         .time {
           margin-left: 10px;
@@ -136,6 +139,8 @@ export const ChatBodyContainer = styled.div`
       }
     }
   }
+  .chat-massage-body {
+  }
 `;
 
 export const ProfilePreviewerContainer = styled.div`
@@ -143,5 +148,76 @@ export const ProfilePreviewerContainer = styled.div`
   max-width: 400px;
   height: calc(100vh - 85px);
   border-left: 1px solid rgba(5, 5, 5, 0.06);
-  padding: 10px;
+
+  .header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 20px;
+    svg {
+      cursor: pointer;
+    }
+  }
+  .user-profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+    }
+  }
+  .option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-top: 1px solid rgba(5, 5, 5, 0.06);
+    border-bottom: 1px solid rgba(5, 5, 5, 0.06);
+    padding: 20px 50px;
+
+    .item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      cursor: pointer;
+      svg {
+        font-size: 30px;
+        color: rgba(13, 110, 253, 0.3);
+      }
+      .text {
+        font: 400 12px Poppins;
+        border: 1px solid #0d6efd;
+        padding: 3px 12px;
+        border-radius: 20px;
+        margin-top: 12px;
+        color: #0d6efd;
+      }
+      &:hover {
+        svg {
+          color: #0d6efd;
+        }
+        .text {
+          background: #0d6efd;
+          color: #fff;
+        }
+      }
+    }
+  }
+  .bio {
+    padding: 20px;
+    .title {
+      font: 600 18px Poppins;
+      margin-bottom: 10px;
+    }
+    .desc {
+      font: 400 14px Poppins;
+      margin-bottom: 10px;
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
 `;
