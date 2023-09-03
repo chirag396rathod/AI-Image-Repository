@@ -20,7 +20,7 @@ const Chat = () => {
       setLoading(true);
       const response = await apiInstance({
         method: "POST",
-        url: `${import.meta.env.VITE_BASE__DEV_API_URL}/massages/get`,
+        url: `${import.meta.env.VITE_BASE_API_URL}/massages/get`,
         data: {
           conversationId: coonversation?.coonversationId,
         },

@@ -136,7 +136,7 @@ const ImageComponent = ({ data, key, isFrom, type }) => {
       setLoading(true);
       const response = await apiInstance({
         method: "post",
-        url: `${import.meta.env.VITE_BASE__DEV_API_URL}/share-image`,
+        url: `${import.meta.env.VITE_BASE_API_URL}/share-image`,
         data: {
           prompt: post?.prompt,
           src: post?.src,
@@ -167,7 +167,7 @@ const ImageComponent = ({ data, key, isFrom, type }) => {
     try {
       const response = await apiInstance({
         method: "post",
-        url: `${import.meta.env.VITE_BASE__DEV_API_URL}/like-dislike`,
+        url: `${import.meta.env.VITE_BASE_API_URL}/like-dislike`,
         data: {
           post_id,
           user_id,

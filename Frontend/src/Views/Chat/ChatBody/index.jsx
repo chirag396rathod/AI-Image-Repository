@@ -25,7 +25,7 @@ const ChatBody = ({ data, loading }) => {
         setMassageLoading(true);
         const response = await apiInstance({
           method: "POST",
-          url: `${import.meta.env.VITE_BASE__DEV_API_URL}/massages`,
+          url: `${import.meta.env.VITE_BASE_API_URL}/massages`,
           data: {
             conversationId: data?.conversation?.coonversationId,
             sender: UserId,

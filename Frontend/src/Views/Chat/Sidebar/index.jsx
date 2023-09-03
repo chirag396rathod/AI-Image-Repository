@@ -19,7 +19,7 @@ const Sidebar = ({ handleGetChatMssages, conversation }) => {
     try {
       const response = await apiInstance({
         method: "GET",
-        url: `${import.meta.env.VITE_BASE__DEV_API_URL}/conversation`,
+        url: `${import.meta.env.VITE_BASE_API_URL}/conversation`,
       });
       const { status, data } = response;
       if (status === 200) {

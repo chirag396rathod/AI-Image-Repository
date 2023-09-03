@@ -18,7 +18,7 @@ const ShareOnChatModal = (props) => {
       setLoading(true);
       const response = await apiInstance({
         method: "get",
-        url: `${import.meta.env.VITE_BASE__DEV_API_URL}/conversation/users`,
+        url: `${import.meta.env.VITE_BASE_API_URL}/conversation/users`,
       });
       const { data, status } = response;
       if (status === 200) {
@@ -48,7 +48,7 @@ const ShareOnChatModal = (props) => {
       setLoading(true);
       const response = await apiInstance({
         method: "POST",
-        url: `${import.meta.env.VITE_BASE__DEV_API_URL}/conversation`,
+        url: `${import.meta.env.VITE_BASE_API_URL}/conversation`,
         data: {
           senderId: USER_ID,
           reciverId,

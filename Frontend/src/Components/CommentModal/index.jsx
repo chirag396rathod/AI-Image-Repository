@@ -28,7 +28,7 @@ const CommentModal = ({
       setLoading(true);
       const response = await apiInstance({
         method: "post",
-        url: `${import.meta.env.VITE_BASE__DEV_API_URL}/get-comment`,
+        url: `${import.meta.env.VITE_BASE_API_URL}/get-comment`,
         data: {
           post_id: data?._id,
         },
@@ -60,7 +60,7 @@ const CommentModal = ({
       setCommentLoading(true);
       const response = await apiInstance({
         method: "post",
-        url: `${import.meta.env.VITE_BASE__DEV_API_URL}/post-comment`,
+        url: `${import.meta.env.VITE_BASE_API_URL}/post-comment`,
         data: {
           post_id: post?._id,
           user_id: USER_ID,
