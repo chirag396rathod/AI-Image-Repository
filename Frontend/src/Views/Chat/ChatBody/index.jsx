@@ -3,7 +3,7 @@ import { EllipsisOutlined, WechatOutlined } from "@ant-design/icons";
 
 import { ChatBodyContainer } from "../styled";
 import { Badge, Button, Empty } from "antd";
-import Message from "./message";
+import Message from "./Message";
 import { LoaderContainer } from "../../../Components/Loader";
 import moment from "moment";
 import FormInput from "../../../Components/FormInput";
