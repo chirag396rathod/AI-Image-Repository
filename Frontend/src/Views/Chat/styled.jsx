@@ -15,6 +15,14 @@ export const SidebarContainer = styled.div`
     font: 600 24px Poppins;
     margin-bottom: 10px;
   }
+  &.set-list-center {
+    .contect-list {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: calc(100vh - 24vh);
+    }
+  }
   .contect-list {
     max-height: calc(100vh - 24vh);
     overflow: scroll;
@@ -94,6 +102,9 @@ export const SidebarContainer = styled.div`
 
 export const ChatBodyContainer = styled.div`
   flex: 1;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
   header {
     display: flex;
     justify-content: space-between;
@@ -139,7 +150,26 @@ export const ChatBodyContainer = styled.div`
       }
     }
   }
-  .chat-massage-body {
+  .massage-container {
+    padding: 20px 0;
+    flex: 1;
+    max-height: 556px;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px 20px 0 20px;
+    border-top: 1px solid rgba(5, 5, 5, 0.06);
+
+    .ant-form-item {
+      flex: 1;
+      padding-right: 20px;
+    }
   }
 `;
 

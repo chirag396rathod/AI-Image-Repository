@@ -1,33 +1,99 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import cx from "classnames";
 
 import { SidebarContainer } from "../styled";
 import FormInput from "../../../Components/FormInput";
+import { LoaderContainer } from "../../../Components/Loader";
+import { apiInstance } from "../../../Utils/axios";
+import { Toast } from "../../../Components/Toater";
+import { Empty } from "antd";
+import moment from "moment";
 
-const Sidebar = () => {
+const Sidebar = ({ handleGetChatMssages, conversation }) => {
+  const [contects, setContect] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const getContectList = async () => {
+    setLoading(true);
+    try {
+      const response = await apiInstance({
+        method: "GET",
+        url: `${import.meta.env.VITE_BASE__DEV_API_URL}/conversation`,
+      });
+      const { status, data } = response;
+      if (status === 200) {
+        setContect(data?.data);
+        setLoading(false);
+      }
+    } catch (error) {
+      if (error) {
+        setLoading(false);
+
+        Toast({
+          type: "error",
+          massage:
+            error?.response?.data?.error?.message || "Somthing went wrong!",
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    getContectList();
+  }, []);
+
   return (
-    <SidebarContainer>
+    <SidebarContainer
+      className={(contects.length === 0 || loading) && "set-list-center"}
+    >
       <div className="title">Chats</div>
       <FormInput placeholder={"Search Messenger"} prefix={<SearchOutlined />} />
       <div className="contect-list">
-        {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1].map((item, key) => (
-          <div
-            className={`contect-item ${key === 2 ? "active" : ""}`}
-            key={key}
-          >
-            <div className="contect-profile">
-              <img src="https://picsum.photos/seed/picsum/200/300" alt="data" />
-            </div>
-            <div className="contect-body">
-              <div className="contect-name">Chirag Rathod</div>
-              <div className="contect-msg">
-                <div className="text">This is massage</div>
-                <div className="time">1min ago</div>
-              </div>
-            </div>
-          </div>
-        ))}
+        {loading ? (
+          <LoaderContainer />
+        ) : (
+          <>
+            {contects.length !== 0 ? (
+              <>
+                {contects?.map((item, key) => (
+                  <div
+                    className={`contect-item ${
+                      item?.coonversationId === conversation?.coonversationId
+                        ? "active"
+                        : ""
+                    }`}
+                    key={key}
+                    onClick={() => handleGetChatMssages(item)}
+                  >
+                    <div className="contect-profile">
+                      <img
+                        src="https://picsum.photos/seed/picsum/200/300"
+                        alt="data"
+                      />
+                    </div>
+                    <div className="contect-body">
+                      <div className="contect-name">{item.name}</div>
+                      <div className="contect-msg">
+                        <div className="text">
+                          {item?.coonversationId ===
+                          conversation?.coonversationId
+                            ? "Online"
+                            : "Offline"}
+                        </div>
+                        {/* <div className="time">
+                          {moment(item?.updatedAt).fromNow()}
+                        </div> */}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </>
+            ) : (
+              <Empty />
+            )}
+          </>
+        )}
       </div>
     </SidebarContainer>
   );

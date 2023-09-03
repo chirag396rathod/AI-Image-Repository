@@ -1,10 +1,12 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import { Spin } from "antd";
 import indexRoutes from "./routes";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./Components/Header";
 
 import { ACCESS_TOKEN } from "./Utils/constants";
+import { io } from "socket.io-client";
+import SocketClient from "./Utils/SocketClient";
 
 const RenderRoutes = () => {
   return (

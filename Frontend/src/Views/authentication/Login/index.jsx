@@ -44,7 +44,7 @@ const Login = () => {
       try {
         setLoading(true);
         const response = await axios({
-          url: `${import.meta.env.VITE_BASE_API_URL}/sign-in`,
+          url: `${import.meta.env.VITE_BASE__DEV_API_URL}/sign-in`,
           method: "POST",
           data: {
             ...requiredObj,

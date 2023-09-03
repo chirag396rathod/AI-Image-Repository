@@ -10,7 +10,6 @@ import { CommentItemStyle } from "./styled";
 const CommentItem = ({ data, key }) => {
   const rendomFourDigit = Math.trunc(Math.abs(Math.random() * 4));
 
-  console.log(data);
   return (
     <CommentItemStyle className="comment-item" key={key}>
       <Avatar

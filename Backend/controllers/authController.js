@@ -75,7 +75,7 @@ const SigninPost = async (req, res) => {
     }
   } catch (error) {
     if (error) {
-      res.status(400).json({ error });
+      res.status(400).json({ error: error.message });
     }
     console.log(error);
   }
