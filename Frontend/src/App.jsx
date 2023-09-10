@@ -1,12 +1,12 @@
 import React, { Suspense, useEffect } from "react";
-import { Spin } from "antd";
-import indexRoutes from "./routes";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Header from "./Components/Header";
+import { Spin } from "antd";
+import { Provider } from "react-redux";
 
 import { ACCESS_TOKEN } from "./Utils/constants";
-import { io } from "socket.io-client";
-import SocketClient from "./Utils/SocketClient";
+import indexRoutes from "./routes";
+import Header from "./Components/Header";
+import Store from "./Utils/store";
 
 const RenderRoutes = () => {
   return (
@@ -19,18 +19,20 @@ const RenderRoutes = () => {
 };
 const App = () => {
   return (
-    <BrowserRouter>
-      <Suspense
-        fallback={
-          <Spin size="large">
-            <div className="content" />
-          </Spin>
-        }
-      >
-        {ACCESS_TOKEN && <Header />}
-        <Routes>{RenderRoutes()}</Routes>
-      </Suspense>
-    </BrowserRouter>
+    <Provider store={Store}>
+      <BrowserRouter>
+        <Suspense
+          fallback={
+            <Spin size="large">
+              <div className="content" />
+            </Spin>
+          }
+        >
+          {ACCESS_TOKEN && <Header />}
+          <Routes>{RenderRoutes()}</Routes>
+        </Suspense>
+      </BrowserRouter>
+    </Provider>
   );
 };
 

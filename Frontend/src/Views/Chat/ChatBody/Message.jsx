@@ -12,17 +12,8 @@ const Message = ({ role, msg, time }) => {
         }
       >
         {msg}
-
-        <div
-          className={
-            role === "sender"
-              ? "is-sender msg-info-container"
-              : "msg-info-container is-reciver"
-          }
-        >
-          <span>{time}</span>
-        </div>
       </div>
+      <span className="time">{time}</span>
     </MessageContainer>
   );
 };

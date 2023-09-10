@@ -33,10 +33,12 @@ const getConversationControler = async (req, res) => {
       data.map(async (member) => {
         const id = await member.member.find((member) => member !== userId);
         const data = await User.findById(id);
+
         const users = {
           name: data?.name,
           updatedAt: data?.updatedAt,
           coonversationId: member?._id,
+          reciverId: id,
         };
         return users;
       })

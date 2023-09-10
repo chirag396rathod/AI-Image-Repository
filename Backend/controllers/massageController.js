@@ -5,6 +5,7 @@ const sendMassages = async (req, res) => {
   if (!conversationId || !sender || !text) {
     return res.status(500).json({ error: "Required params are missing!" });
   }
+
   const newMassages = new Massages({
     conversationId,
     sender,

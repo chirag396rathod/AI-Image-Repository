@@ -1,33 +1,49 @@
 import React, { useState } from "react";
-import { EllipsisOutlined, WechatOutlined } from "@ant-design/icons";
-
-import { ChatBodyContainer } from "../styled";
-import { Badge, Button, Empty } from "antd";
-import Message from "./Message";
-import { LoaderContainer } from "../../../Components/Loader";
-import moment from "moment";
-import FormInput from "../../../Components/FormInput";
 import { useFormik } from "formik";
-import { Toast } from "../../../Components/Toater";
-import { apiInstance } from "../../../Utils/axios";
+import { EllipsisOutlined, WechatOutlined } from "@ant-design/icons";
+import { Input, Badge, Button, Empty } from "antd";
+import moment from "moment";
+import * as Yup from "yup";
 
-const ChatBody = ({ data, loading }) => {
+import { Toast } from "../../../Components/Toater";
+import { ChatBodyContainer } from "../styled";
+import { LoaderContainer } from "../../../Components/Loader";
+import { apiInstance } from "../../../Utils/axios";
+import Message from "./Message";
+import { useSelector } from "react-redux";
+
+const ChatBody = ({ data, conversation, loading }) => {
   const UserId = localStorage.getItem("user_id");
   const [massageLoading, setMassageLoading] = useState(false);
+  const { TextArea } = Input;
+  const socket = useSelector((state) => state.chatapp.socket);
+
+  const MassageShema = Yup.object().shape({
+    massage: Yup.string().required("Massage is required!"),
+  });
 
   const formik = useFormik({
     initialValues: {
       massage: "",
     },
+    validationSchema: MassageShema,
     onSubmit: async (value, { resetForm }) => {
       const { massage } = value;
+      if (socket) {
+        socket?.emit("sendMassage", {
+          conversationId: conversation?.coonversationId,
+          sender: UserId,
+          text: massage,
+          reciver: conversation?.reciverId,
+        });
+      }
       try {
         setMassageLoading(true);
         const response = await apiInstance({
           method: "POST",
           url: `${import.meta.env.VITE_BASE_API_URL}/massages`,
           data: {
-            conversationId: data?.conversation?.coonversationId,
+            conversationId: conversation?.coonversationId,
             sender: UserId,
             text: massage,
           },
@@ -50,6 +66,7 @@ const ChatBody = ({ data, loading }) => {
       }
     },
   });
+
   return (
     <ChatBodyContainer>
       <header>
@@ -60,7 +77,7 @@ const ChatBody = ({ data, loading }) => {
             </div>
           </Badge>
           <div className="body">
-            <div className="name">{data?.conversation?.name}</div>
+            <div className="name">{conversation?.name}</div>
             <div className="status">Online</div>
           </div>
         </div>
@@ -73,9 +90,9 @@ const ChatBody = ({ data, loading }) => {
           <LoaderContainer />
         ) : (
           <>
-            {data?.message?.length > 0 ? (
+            {data?.length > 0 ? (
               <>
-                {data?.message.map((item, key) => (
+                {data?.map((item, key) => (
                   <Message
                     key={key}
                     role={item?.sender === UserId ? "sender" : "reciver"}
@@ -91,20 +108,21 @@ const ChatBody = ({ data, loading }) => {
         )}
       </div>
       <div className="footer">
-        <FormInput
-          isRequired
-          placeholder="type something..."
-          name="massage"
-          formik={formik}
-          prefix={<WechatOutlined />}
-        />
-        <Button
-          type={"primary"}
-          onClick={formik.handleSubmit}
-          loading={massageLoading}
-        >
-          Send Massage
-        </Button>
+        <form onSubmit={formik.handleSubmit}>
+          <TextArea
+            placeholder="Type something..."
+            allowClear
+            rows={1}
+            name="massage"
+            onBlur={() => formik && formik.setFieldTouched(["massage"])}
+            value={formik.values.massage}
+            onChange={formik.handleChange}
+            prefix={<WechatOutlined />}
+          />
+          <Button type={"primary"} htmlType="submit" loading={massageLoading}>
+            Send Massage
+          </Button>
+        </form>
       </div>
     </ChatBodyContainer>
   );

@@ -12,7 +12,7 @@ import { ConnectSocketIO } from "./controllers/Chat/config.js";
 dotenv.config();
 
 const app = express();
-
+let io = null;
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 app.set("view engine", "ejs");
@@ -23,12 +23,12 @@ const startServer = async () => {
     const server = app.listen(8080, () =>
       console.log("server started on PORT :- 8080")
     );
-    const io = new Server(server, {
+    io = new Server(server, {
       cors: "*",
     });
 
     // Connect Socket.io
-    ConnectSocketIO(io);
+    ConnectSocketIO();
   } catch (error) {
     console.log(error);
   }
@@ -39,3 +39,4 @@ app.use("/api/v1/ai-image-repo", AIImageRepo);
 app.use("/api/v1/ai-image-repo", conversation);
 
 startServer();
+export { io };

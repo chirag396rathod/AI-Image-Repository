@@ -151,7 +151,7 @@ export const ChatBodyContainer = styled.div`
     }
   }
   .massage-container {
-    padding: 20px 0;
+    padding: 20px;
     flex: 1;
     max-height: 556px;
     overflow-y: scroll;
@@ -165,10 +165,13 @@ export const ChatBodyContainer = styled.div`
     align-items: flex-start;
     padding: 20px 20px 0 20px;
     border-top: 1px solid rgba(5, 5, 5, 0.06);
-
-    .ant-form-item {
+    form {
+      width: 100%;
+      display: flex;
+    }
+    .ant-input-affix-wrapper {
       flex: 1;
-      padding-right: 20px;
+      margin-right: 20px;
     }
   }
 `;
@@ -178,7 +181,9 @@ export const ProfilePreviewerContainer = styled.div`
   max-width: 400px;
   height: calc(100vh - 85px);
   border-left: 1px solid rgba(5, 5, 5, 0.06);
-
+  @media screen and (max-width: 1200px) {
+    display: none;
+  }
   .header {
     display: flex;
     justify-content: flex-end;

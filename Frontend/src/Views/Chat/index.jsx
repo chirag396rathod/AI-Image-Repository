@@ -1,19 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import { ChatContainer } from "./styled";
+import { Toast } from "../../Components/Toater";
+import { apiInstance } from "../../Utils/axios";
+import { handleStoreMessaged } from "../../Redux";
 import Sidebar from "./Sidebar";
 import ChatBody from "./ChatBody";
 import ProfilePreviewer from "./ProfilePreviewer";
-import { Toast } from "../../Components/Toater";
-import { apiInstance } from "../../Utils/axios";
 import SocketClient from "../../Utils/SocketClient";
-// import { connect_socket } from "../../Utils/socket";
 
 const Chat = () => {
   const [chatMassages, setChatMassages] = useState({
     massages: [],
-    conversation: null,
   });
   const [loading, setLoading] = useState(false);
+  const [conversation, setconversation] = useState(null);
+  const dispatch = useDispatch();
+  const messageData = useSelector((state) => state.chatapp.messages);
 
   const handleGetChatMssages = async (coonversation) => {
     try {
@@ -29,12 +33,14 @@ const Chat = () => {
       if (status === 200) {
         setChatMassages({
           message: data?.data,
-          conversation: coonversation,
         });
+        dispatch(handleStoreMessaged(data?.data));
+        setconversation(coonversation);
         setLoading(false);
       }
     } catch (error) {
       setLoading(false);
+      console.log(error);
       Toast({
         type: "error",
         massage:
@@ -42,13 +48,18 @@ const Chat = () => {
       });
     }
   };
+
   return (
     <ChatContainer>
       <Sidebar
         handleGetChatMssages={handleGetChatMssages}
-        conversation={chatMassages?.conversation}
+        conversation={conversation}
       />
-      <ChatBody data={chatMassages} loading={loading} />
+      <ChatBody
+        data={messageData}
+        conversation={conversation}
+        loading={loading}
+      />
       <ProfilePreviewer />
       <SocketClient />
     </ChatContainer>

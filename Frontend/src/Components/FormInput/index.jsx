@@ -10,6 +10,7 @@ const FormInput = ({
   formik,
   name,
   prefix,
+  value,
 }) => {
   return (
     <>
@@ -45,6 +46,7 @@ const FormInput = ({
               formik.touched[name] &&
               "error"
             }
+            value={value}
           />
         ) : (
           <Input.Password

@@ -9,8 +9,11 @@ import { apiInstance } from "../../../Utils/axios";
 import { Toast } from "../../../Components/Toater";
 import { Empty } from "antd";
 import moment from "moment";
+import { useSelector } from "react-redux";
 
 const Sidebar = ({ handleGetChatMssages, conversation }) => {
+  const activeUsers = useSelector((state) => state.chatapp.activeUsers);
+
   const [contects, setContect] = useState([]);
   const [loading, setLoading] = useState(false);
 

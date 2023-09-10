@@ -3,6 +3,8 @@ import { styled } from "styled-components";
 export const MessageContainer = styled.div`
   display: flex;
   justify-content: ${({ isSender }) => (isSender ? "flex-end" : "flex-start")};
+  flex-direction: column;
+  align-items: ${({ isSender }) => (isSender ? "flex-end" : "baseline")};
   margin-bottom: 20px;
   .massage-cover {
     max-width: 65%;
@@ -10,16 +12,23 @@ export const MessageContainer = styled.div`
     background-color: #0d6efd;
     color: #fff;
     max-width: auto;
-    padding: 12px 12px 25px 12px;
+    padding: 12px 18px;
     background-color: #0d6efd;
-    border-radius: 0 12px 12px 0;
+    border-radius: 30px;
     position: relative;
-    min-width: 15%;
+  }
+  .time {
+    font-size: 12px;
+    font-weight: 400;
+    font-family: Poppins;
+    padding-left: ${({ isSender }) => !isSender && "10px"};
+    padding-right: ${({ isSender }) => isSender && "10px"};
+    padding-top: 5px;
   }
   .sender {
-    border-radius: 12px 0px 0px 12px;
+    border-radius: 30px;
     width: fit-content;
-    padding: 12px 12px 25px 12px;
+    padding: 12px 18px;
     text-align: left;
   }
   .msg-info-container {
@@ -30,10 +39,10 @@ export const MessageContainer = styled.div`
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    position: absolute;
 
+    /* position: absolute;
     right: 5px;
-    bottom: 5px;
+    bottom: 5px; */
     span {
       margin-right: 10px;
     }
