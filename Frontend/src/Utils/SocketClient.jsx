@@ -14,7 +14,9 @@ const SocketClient = () => {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    const socketConnection = io("http://localhost:8080");
+    const socketConnection = io(
+      import.meta.env.VITE_BASE_API_URL || "http://localhost:8080"
+    );
     setSocket(socketConnection);
     dispatch(handleSetSocket(socketConnection));
   }, []);
