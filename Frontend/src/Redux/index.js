@@ -18,7 +18,7 @@ const chatAppSlice = createSlice({
     },
     handleStoreMessaged: (state, action) => {
       const isArray = Array.isArray(action.payload);
-      console.log(action.payload);
+
       if (isArray) {
         state.messages = action.payload;
       } else {

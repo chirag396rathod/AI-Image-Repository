@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 import { EllipsisOutlined, WechatOutlined } from "@ant-design/icons";
 import { Input, Badge, Button, Empty } from "antd";
@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 
 const ChatBody = ({ data, conversation, loading }) => {
   const UserId = localStorage.getItem("user_id");
+  const messageEl = useRef(null);
   const [massageLoading, setMassageLoading] = useState(false);
   const { TextArea } = Input;
   const socket = useSelector((state) => state.chatapp.socket);
@@ -67,6 +68,15 @@ const ChatBody = ({ data, conversation, loading }) => {
     },
   });
 
+  useEffect(() => {
+    if (messageEl) {
+      messageEl.current.addEventListener("DOMNodeInserted", (event) => {
+        const { currentTarget: target } = event;
+        target.scroll({ top: target.scrollHeight, behavior: "smooth" });
+      });
+    }
+  }, [data]);
+
   return (
     <ChatBodyContainer>
       <header>
@@ -85,7 +95,7 @@ const ChatBody = ({ data, conversation, loading }) => {
           <EllipsisOutlined className="ellips" />
         </div>
       </header>
-      <div className="massage-container">
+      <div className="massage-container" ref={messageEl}>
         {loading ? (
           <LoaderContainer />
         ) : (

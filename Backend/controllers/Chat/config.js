@@ -25,7 +25,8 @@ export const ConnectSocketIO = () => {
         sender,
         conversationId,
       };
-
+      console.log(users);
+      console.log(senderUser);
       if (reciverUser?.socketId) {
         io.to(reciverUser?.socketId).emit("getMassage", newMassage);
       }
