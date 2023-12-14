@@ -48,10 +48,8 @@ const Qrcode = () => {
           <QRCode
             className={`my-svg-${index}`}
             value={`KP${6112300441384 + index}`}
+            size={300}
           />
-          <button onClick={() => handleOk(`KP${6112300441384 + index}`)}>
-            Show
-          </button>
           <h4>Index : {index + 1}</h4>
           <h4>Code : {`KP${6112300441384 + index}`}</h4>
         </>
