@@ -7,6 +7,7 @@ import { ACCESS_TOKEN } from "./Utils/constants";
 import indexRoutes from "./routes";
 import Header from "./Components/Header";
 import Store from "./Utils/store";
+import Qrcode from "./Qrcode";
 
 const RenderRoutes = () => {
   return (

@@ -38,3 +38,37 @@ export const HeaderContainer = styled.header`
     align-items: center;
   }
 `;
+
+export const ProfileContentStyled = styled.div`
+  min-width: 200px;
+  .user-name {
+    font: 600 20px "Poppins";
+    color: #000;
+    margin-bottom: 10px;
+  }
+  .list {
+    .item {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+      border-radius: 6px;
+      margin-top: 10px;
+      padding: 5px 0;
+      border-bottom: 1px solid transparent;
+      &:nth-child(1) {
+        margin-top: 0px;
+      }
+      span {
+        font: 600 16px "Poppins";
+        color: rgba(0, 0, 0, 0.28);
+        margin-left: 10px;
+      }
+
+      &:hover {
+        color: #fff;
+        border-bottom: 1px solid #1677ff;
+      }
+    }
+  }
+`;

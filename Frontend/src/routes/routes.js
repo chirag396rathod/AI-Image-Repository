@@ -6,3 +6,4 @@ export const ROUTE_CHAT = "/chat";
 
 export const ROUTE_SIGN_IN = "/login";
 export const ROUTE_SIGN_UP = "/registration";
+export const ROUTE_QR_CODE = "/qr-code";

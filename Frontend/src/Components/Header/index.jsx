@@ -1,14 +1,14 @@
 import React from "react";
-import { Input, Button, Tooltip } from "antd";
+import { Popover, Avatar, Button, Tooltip } from "antd";
 import {
-  WechatOutlined,
+  UserOutlined,
   CompressOutlined,
   LogoutOutlined,
   CommentOutlined,
 } from "@ant-design/icons";
 
 import { Logo } from "../../assets/Images";
-import { HeaderContainer } from "./styled";
+import { HeaderContainer, ProfileContentStyled } from "./styled";
 import { Link } from "react-router-dom";
 import {
   ROUTE_CHAT,
@@ -22,6 +22,27 @@ const Header = () => {
     localStorage.clear();
     window.location.href = ROUTE_SIGN_IN;
   };
+
+  const content = (
+    <ProfileContentStyled>
+      <div className="user-name">Chirag Rathod</div>
+      <div className="list">
+        <div className="item">
+          <UserOutlined size={20} />
+          <span>Profile</span>
+        </div>
+        <Link to={ROUTE_CHAT} className="item">
+          <CommentOutlined size={20} />
+          <span>Chat</span>
+        </Link>
+        <div className="logout item">
+          <LogoutOutlined size={20} />
+          <span>Logout</span>
+        </div>
+      </div>
+    </ProfileContentStyled>
+  );
+
   return (
     <HeaderContainer>
       <Link to={ROUTE_HOME_PAGE} className="header-right">
@@ -32,17 +53,6 @@ const Header = () => {
       </Link>
 
       <div className="right-section">
-        <Link to={ROUTE_CHAT}>
-          <Tooltip placement="bottom" title="Chat" color={"black"}>
-            <CommentOutlined
-              style={{
-                fontSize: "20px",
-                marginRight: "20px",
-                cursor: "pointer",
-              }}
-            />
-          </Tooltip>
-        </Link>
         <Tooltip placement="bottom" title="Generate image" color={"black"}>
           <Link to={ROUTE_CREATE_POST_PAGE.replace(":page", 1)}>
             <Button icon={<CompressOutlined />} className="button-flex">
@@ -50,10 +60,17 @@ const Header = () => {
             </Button>
           </Link>
         </Tooltip>
-        <LogoutOutlined
+        <Popover className="mx-3" placement="bottomRight" content={content}>
+          <Avatar
+            size={40}
+            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+          />
+        </Popover>
+
+        {/* <LogoutOutlined
           style={{ fontSize: "20px", marginLeft: "20px", cursor: "pointer" }}
           onClick={() => handleLogout()}
-        />
+        /> */}
       </div>
     </HeaderContainer>
   );
