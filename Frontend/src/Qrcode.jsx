@@ -51,14 +51,14 @@ const Qrcode = () => {
         <>
           <QRCode
             className={`my-svg-${index}`}
-            value={`KP${6112300441584 + index}`}
+            value={`KP${6112300442384 + index}`}
             size={450}
             style={{
               margin: "20px 200px",
             }}
           />
           <h4>Index : {index + 1}</h4>
-          <h4>Code : {`KP${6112300441584 + index}`}</h4>
+          <h4>Code : {`KP${6112300442384 + index}`}</h4>
         </>
       ))}
       <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
