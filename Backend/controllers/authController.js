@@ -1,4 +1,5 @@
 import { User } from "../mongodb/models/userModel.js";
+import { registerEmail } from "../mongodb/models/registerEmailModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
@@ -50,6 +51,21 @@ const SignupPost = async (req, res) => {
   }
 };
 
+const RegisteredPost = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await registerEmail.create({
+      email,
+    });
+    res.status(201).json({
+      message: "You are register successfully!",
+    });
+  } catch (error) {
+    const errors = handleErrors(error);
+    res.status(400).json({ errors });
+  }
+};
+
 const SigninPost = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -80,4 +96,4 @@ const SigninPost = async (req, res) => {
     console.log(error);
   }
 };
-export { SignupPost, SigninPost };
+export { SignupPost, SigninPost, RegisteredPost };
