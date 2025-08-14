@@ -130,9 +130,6 @@ npm start
 
 ## 📸 Example usage
 
-**Prompt:**  
-A majestic lion sitting on a throne under the stars
-
 **Generated images:**  
 ![AI-6](https://github.com/user-attachments/assets/9ee672f0-f393-4eee-9e78-e785a283e05b)  
 ![AI-3](https://github.com/user-attachments/assets/b0dc9f4c-518e-4681-b58c-5bfb9f27f2d6)  
