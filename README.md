@@ -1,80 +1,64 @@
-```markdown
 # AI Image Repository
 
-A full-stack web application that generates images from text using **Laxica AI**.  
+A full-stack web application that generates images from text using Laxica AI.
 
-The project features a **React.js** frontend and a **Node.js** backend, allowing users to input text prompts and receive AI-generated images in real-time.  
-
-Frontend is hosted on **Netlify** and the backend is hosted on **Render**.
+The project includes a React.js frontend and a Node.js backend. Users submit text prompts and receive AI-generated images in real time. The frontend is hosted on Netlify, and the backend is hosted on Render.
 
 ---
 
 ## 🚀 Features
 
-- Generate images from text prompts using **Laxica AI API**.
-- Simple, responsive React.js user interface.
-- Backend API to handle AI requests and responses.
-- Secure communication between frontend and backend.
-- Hosted online for easy access (**Netlify** + **Render**).
+- **Text-to-image:** Generate images from text prompts via the Laxica AI API.
+- **Responsive UI:** Clean, simple, and mobile-friendly React.js interface.
+- **API gateway:** Node/Express backend handles AI requests and responses.
+- **Secure routing:** Environment variables and separate services for safe communication.
+- **Live hosting:** Frontend on Netlify and backend on Render for easy access.
 
 ---
 
-## 🛠 Tech Stack
+## 🛠 Tech stack
 
-**Frontend:**
-- React.js
-- Axios (for API calls)
-- Netlify (hosting)
-
-**Backend:**
-- Node.js
-- Express.js
-- Render (hosting)
-
-**AI Service:**
-- Laxica AI (Text-to-Image generation)
+- **Frontend:** React.js, Axios, Netlify (hosting)
+- **Backend:** Node.js, Express.js, Render (hosting)
+- **AI service:** Laxica AI (text-to-image generation)
 
 ---
 
-## 📂 Project Structure
+## 📂 Project structure
 
 ```
-
 AI-Image-Repository/
-├── Frontend/            # React.js application
+├── Frontend/             # React.js application
 │   ├── src/
 │   ├── public/
 │   ├── package.json
 │   └── ...
-└── Backend/             # Node.js API server
-├── src/
-├── routes/
-├── controllers/
-├── package.json
-└── ...
-
-````
+└── Backend/              # Node.js API server
+    ├── src/
+    ├── routes/
+    ├── controllers/
+    ├── package.json
+    └── ...
+```
 
 ---
 
-## ⚙️ Installation & Setup
+## ⚙️ Installation and setup
 
 ### Prerequisites
-- Node.js (v14+ recommended)
-- npm or yarn
-- Laxica AI API Key
 
----
+- **Node.js:** v14+ recommended
+- **Package manager:** npm or yarn
+- **API key:** Laxica AI API key
 
 ### 1️⃣ Clone the repository
+
 ```bash
 git clone https://github.com/chirag396rathod/AI-Image-Repository.git
 cd AI-Image-Repository
-````
+```
 
----
-
-### 2️⃣ Backend Setup
+### 2️⃣ Backend setup
 
 ```bash
 cd Backend
@@ -82,22 +66,20 @@ npm install
 cp .env.example .env
 ```
 
-**Edit `.env`** with:
+**Environment variables:**
 
 ```env
 PORT=5000
 LAXICA_API_KEY=your_api_key_here
 ```
 
-Run backend:
+**Run the server:**
 
 ```bash
 npm start
 ```
 
----
-
-### 3️⃣ Frontend Setup
+### 3️⃣ Frontend setup
 
 ```bash
 cd ../Frontend
@@ -105,13 +87,13 @@ npm install
 cp .env.example .env
 ```
 
-**Edit `.env`** with:
+**Environment variables:**
 
 ```env
 REACT_APP_API_URL=https://your-backend-url.onrender.com
 ```
 
-Run frontend:
+**Run the app:**
 
 ```bash
 npm start
@@ -119,76 +101,64 @@ npm start
 
 ---
 
-## 🔌 API Endpoints
+## 🔌 API endpoints
 
-**POST** `/generate-image`
-Generate an image from a text prompt.
+- **POST /generate-image:** Generate an image from a text prompt.
 
-Request body:
+  Request body:
+  ```json
+  {
+    "prompt": "A futuristic city in the clouds"
+  }
+  ```
 
-```json
-{
-  "prompt": "A futuristic city in the clouds"
-}
-```
-
-Response:
-
-```json
-{
-  "imageUrl": "https://link-to-generated-image.com"
-}
-```
+  Response:
+  ```json
+  {
+    "imageUrl": "https://link-to-generated-image.com"
+  }
+  ```
 
 ---
 
 ## 🌐 Deployment
 
-* **Frontend**: [Netlify](https://www.netlify.com/)
-* **Backend**: [Render](https://render.com/)
+- **Frontend:** Netlify
+- **Backend:** Render
 
 ---
 
-## 📸 Example Usage
+## 📸 Example usage
 
-**Prompt:**
+**Prompt:**  
 A majestic lion sitting on a throne under the stars
 
-**Generated Images:**
-![AI-6](https://github.com/user-attachments/assets/9ee672f0-f393-4eee-9e78-e785a283e05b)
-![AI-3](https://github.com/user-attachments/assets/b0dc9f4c-518e-4681-b58c-5bfb9f27f2d6)
+**Generated images:**  
+![AI-6](https://github.com/user-attachments/assets/9ee672f0-f393-4eee-9e78-e785a283e05b)  
+![AI-3](https://github.com/user-attachments/assets/b0dc9f4c-518e-4681-b58c-5bfb9f27f2d6)  
 ![AI-8](https://github.com/user-attachments/assets/1e9838aa-2fcf-4f37-ba6b-1e47c6e4b744)
 
 ---
 
 ## 🤝 Contributing
 
-1. Fork the repository.
-2. Create a feature branch (`git checkout -b feature-name`).
-3. Commit your changes (`git commit -m 'Add new feature'`).
-4. Push to the branch (`git push origin feature-name`).
-5. Open a Pull Request.
+1. **Fork:** Fork the repository to your GitHub account.
+2. **Branch:** Create a feature branch: `git checkout -b feature-name`.
+3. **Commit:** Commit your changes: `git commit -m "Add new feature"`.
+4. **Push:** Push to your branch: `git push origin feature-name`.
+5. **PR:** Open a Pull Request describing your changes.
 
 ---
 
 ## 📜 License
 
-This project is licensed under the MIT License.
+- **Type:** MIT License
 
 ---
 
 ## 📧 Contact
 
-Maintained by [**Chirag Rathod**](https://github.com/chirag396rathod).
-For inquiries, open an issue or connect via GitHub.
+- **Maintainer:** [Chirag Rathod](https://github.com/chirag396rathod)  
+- **Support:** Open an issue or connect via GitHub.
 
-```
-
-This version:  
-- Fixed **Markdown formatting issues** (broken code fences, inconsistent indents, missing bold markers).  
-- Ensured **code blocks render properly**.  
-- Fixed **nested list spacing** so GitHub displays it cleanly.  
-- Moved everything into a single, clean file.  
-
-If you want, I can also **add shields.io badges** for Netlify, Render, and React so your README looks even more professional.
-```
+---
