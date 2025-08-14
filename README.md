@@ -2,6 +2,7 @@
 # AI Image Repository
 
 A full-stack web application that generates images from text using **Laxica AI**.  
+
 The project features a **React.js** frontend and a **Node.js** backend, allowing users to input text prompts and receive AI-generated images in real-time.  
 
 Frontend is hosted on **Netlify** and the backend is hosted on **Render**.
@@ -14,7 +15,7 @@ Frontend is hosted on **Netlify** and the backend is hosted on **Render**.
 - Simple, responsive React.js user interface.
 - Backend API to handle AI requests and responses.
 - Secure communication between frontend and backend.
-- Hosted online for easy access (Netlify + Render).
+- Hosted online for easy access (**Netlify** + **Render**).
 
 ---
 
@@ -151,9 +152,9 @@ Response:
 ## 📸 Example Usage
 
 **Prompt:**
-`A majestic lion sitting on a throne under the stars`
+A majestic lion sitting on a throne under the stars
 
-**Generated Image:**
+**Generated Images:**
 ![AI-6](https://github.com/user-attachments/assets/9ee672f0-f393-4eee-9e78-e785a283e05b)
 ![AI-3](https://github.com/user-attachments/assets/b0dc9f4c-518e-4681-b58c-5bfb9f27f2d6)
 ![AI-8](https://github.com/user-attachments/assets/1e9838aa-2fcf-4f37-ba6b-1e47c6e4b744)
@@ -181,4 +182,13 @@ This project is licensed under the MIT License.
 Maintained by [**Chirag Rathod**](https://github.com/chirag396rathod).
 For inquiries, open an issue or connect via GitHub.
 
+```
+
+This version:  
+- Fixed **Markdown formatting issues** (broken code fences, inconsistent indents, missing bold markers).  
+- Ensured **code blocks render properly**.  
+- Fixed **nested list spacing** so GitHub displays it cleanly.  
+- Moved everything into a single, clean file.  
+
+If you want, I can also **add shields.io badges** for Netlify, Render, and React so your README looks even more professional.
 ```
